@@ -1,11 +1,11 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/TA_3CB_a)
-# Examenopdracht Front-end Web Development / Web Services
+# Examenopdracht Front-end Web Development
 
 > Schrap hierboven wat niet past
 
-- Student: VOORNAAM NAAM
-- Studentennummer: xxxxxxxxx
-- E-mailadres: <mailto:voornaam.naam@student.hogent.be>
+- Student: Peter Cypers
+- Studentennummer: 202185333
+- E-mailadres: <mailto:peter.cypers@student.hogent.be>
 
 ## Vereisten
 
