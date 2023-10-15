@@ -1,5 +1,5 @@
 import Nav from "./components/pageElements/Nav"
-
+import DragDrop from "./components/pageElements/DropZone"
 
 function App() {
 
@@ -17,7 +17,7 @@ function App() {
     </header>
     
       <Nav />
-
+      <DragDrop />
       <main>
         
       </main>
