@@ -9,8 +9,15 @@ function DragDrop() {
     setFile(file);
     console.log(file);
   };
+  const logFile = () => {
+    console.log(file);
+  }
   return (
+    <>
     <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+    <button onClick={logFile} className="btn btn-primary">ClickMe</button>
+    <hr/>
+    </>
   );
 }
 

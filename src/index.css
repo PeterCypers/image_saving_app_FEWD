@@ -29,8 +29,39 @@ li{
   padding: 10px;
   list-style-type: none;
 }
-@media screen and (min-width: 600px) {
+/* @media screen and (min-width: 600px) {
   #nav-list{
     justify-content: space-around;
   }
+} */
+
+/* geleende code */
+nav ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(16, 167, 218);
+  margin: 0;
+  padding: 5px;
+}
+
+nav ul li a {
+  color: white;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+nav li {
+  font-size: 16px;
+}
+
+nav ul li a:hover {
+  background-color: darkblue;
+  /* een probleem met Link -> NavLink active class opgelost */
+  color: white; 
+}
+
+nav a.active {
+  color: darkblue;
 }

@@ -1,19 +1,12 @@
-import { Nav } from "./components/pageElements/Nav"
-import DragDrop from "./components/pageElements/DropZone"
+import { Outlet } from "react-router-dom";
 import { useState } from "react";
 
-function App() {
+export function Top() {
+    const [ userID, setUserID ] = useState('1');
 
-  const [ userID, setUserID ] = useState('1');
- 
-
-  // function setUser() {
-  //   localStorage.setItem("fotoProjectID", document.getElementById("id-select").value);
-  // }
-
-  return (
+    return (
     <>
-    <header id="page-header">
+        <header id="page-header">
     <h1>Foto Verzameling</h1>
     <div id="login-component-placeholder">
       <button id="login-btn">
@@ -23,7 +16,7 @@ function App() {
       <p>login placeholder</p>
     </div>
     </header>
-    <label htmlFor="id-select">Select User: {"  "}</label>
+    <label htmlFor="id-select" className="mr-2">Select User: {"  "}</label>
     <select name="userIds" id="id-select" onChange={(e) => setUserID(e.target.value)}>
       <option value="1">Default User = 1</option>
       <option value="2">2</option>
@@ -33,11 +26,8 @@ function App() {
       <option value="6">6</option>
     </select>
     <p>current user: {userID}</p>
-    
-      <Nav />
-      <DragDrop />
+    <Outlet />
     </>
-  )
+    
+    );
 }
-
-export default App
