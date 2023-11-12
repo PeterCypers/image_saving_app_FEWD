@@ -1,25 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
-import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { Top } from './components/pageElements/Top.jsx';
-import { OldNav, Nav} from './components/pageElements/Nav.jsx';
-import DragDrop from './components/pageElements/DropZone.jsx';
-import Fotos from './components/pageElements/FotosPlaceholder.jsx';
-import Albums from './components/pageElements/AlbumsPlaceholder.jsx';
-import { NotFound } from './components/pageElements/NotFound.jsx';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Top } from './components/Top.jsx';
+import DragDrop from './pages/DropZone.jsx';
+import Fotos from './pages/FotosPlaceholder.jsx';
+import Albums from './pages/AlbumsPlaceholder.jsx';
+import { NotFound } from './pages/NotFound.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Top />,
     children: [
-      {
-        path: "/",
-        element: <Nav />,
-        children: [
           {
+            index: true,
             path: "dropzone",
             element: <DragDrop />
           },
@@ -33,8 +28,8 @@ const router = createBrowserRouter([
           }
         ]
       }
-    ]
-  },
+    
+  ,
   {
     path: '*',
     element: <NotFound />

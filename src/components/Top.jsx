@@ -1,8 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { Nav } from './Nav'
+import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export function Top() {
     const [ userID, setUserID ] = useState('1');
+
+    const navigate = useNavigate();
+
+    const handleGoHome = () => navigate("/", { replace: true });
 
     return (
     <>
@@ -26,7 +31,10 @@ export function Top() {
       <option value="6">6</option>
     </select>
     <p>current user: {userID}</p>
-    <Outlet />
+    <Nav/>
+    {/* <Outlet /> rendert alle (hoofd)routes */}
+    <Outlet context={userID}/>
+    <button onClick={handleGoHome}>Go Home!</button>
     </>
     
     );

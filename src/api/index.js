@@ -15,7 +15,7 @@ export const getById = async (url) => {
     data
   } = await axios.get(`${baseUrl}/${url}`); 
 
-  return data;
+  return data.items;
 };
 
 export const deleteById = async (url, { arg: id }) => {

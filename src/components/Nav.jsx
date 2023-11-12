@@ -1,9 +1,7 @@
-import { Outlet, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 function Nav() {
-    const navigate = useNavigate();
-
-    const handleGoHome = () => navigate("/", { replace: true });
+    
     return (
         <div>
             <nav>
@@ -18,10 +16,7 @@ function Nav() {
                         <NavLink to="/albums">Mijn Albums</NavLink> 
                     </li>
                 </ul>
-            </nav>
-
-            <Outlet /> {/* rendert alle (hoofd)routes */}
-            <button onClick={handleGoHome}>Go Home!</button>
+            </nav>            
         </div>
     );
 
