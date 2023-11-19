@@ -22,11 +22,16 @@ export const deleteById = async (url, { arg: id }) => {
   await axios.delete(`${baseUrl}/${url}/${id}`);
 };
 
-export const save = async (url, { arg: body }) => {
-  const { id, ...values } = body;
+export const save = async (url, form) => {
+  const foto = form.get("fotoFile");
+  const userID = form.get("userID");
+  const dateUploaded = form.get("dateUploaded");
+  // test data:
+  console.log(`${foto}\n${userID}\n${dateUploaded}`);
+  // end test
   await axios({
-    method: id ? 'PUT' : 'POST',
-    url: `${baseUrl}/${url}/${id ?? ''}`,
-    data: values,
+    method: 'POST',
+    url: `${baseUrl}/${url}/`,
+    data: form, //just send the FormData object
   });
 };
