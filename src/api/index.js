@@ -29,9 +29,11 @@ export const save = async (url, form) => {
   // test data:
   console.log(`${foto}\n${userID}\n${dateUploaded}`);
   // end test
-  await axios({
-    method: 'POST',
-    url: `${baseUrl}/${url}/`,
-    data: form, //just send the FormData object
-  });
+  // await axios({
+  //   method: 'POST',
+  //   url: `${baseUrl}/${url}/`,
+  //   data: form, //just send the FormData object
+  //   headers: form.getHeaders(),
+  // });
+  await axios.postForm(`${baseUrl}/${url}/`,form);
 };

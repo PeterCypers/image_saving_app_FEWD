@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { useOutletContext } from "react-router-dom";
 import { save } from "../api";
+// const FormData = require('form-data');
+// import { FormData } from 'form-data'
 
 const fileTypes = ["JPG", "PNG", "GIF"];
 
@@ -23,14 +25,17 @@ function DragDrop({}) {
   const logFile = () => {
     console.log(file);
   }
+  
 
   const saveFoto = async() => {
     // file is gekozen:
     if(file){
       console.log(file);
       const formData = new FormData();
+
       const dateUploaded = new Date();
       const userID = contextID;
+
       formData.append(
         "fotoFile",
         file,
@@ -42,8 +47,8 @@ function DragDrop({}) {
       formData.append(
         "dateUploaded",
         dateUploaded
-      );
-      await save("fotos", formData);
+      );//console.log(formData.getHeaders());//test
+      await save("fotos/save", formData);
     }else{
       console.log(file);
       // een bericht tonen dat je eerst een file moet kiezen
