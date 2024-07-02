@@ -22,6 +22,8 @@ function DragDrop({}) {
     setFile(file);
     console.log(file);
   };
+
+  //TODO: un-used?
   const logFile = () => {
     console.log(file);
   }
@@ -46,7 +48,7 @@ function DragDrop({}) {
       );
       formData.append(
         "dateUploaded",
-        dateUploaded
+        dateUploaded.toISOString() //added parsing 2-7-24
       );//console.log(formData.getHeaders());//test
       await save("fotos/save", formData);
     }else{
