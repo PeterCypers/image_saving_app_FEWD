@@ -1,25 +1,23 @@
 import { NavLink } from 'react-router-dom'
 
 function Nav() {
-    
     return (
-        <div>
+        <div className='mb-2 border border-primary rounded'>
             <nav>
                 <ul>
                     <li>
-                        <NavLink to="/dropzone">Foto Toevoegen</NavLink> 
+                        <NavLink to="/dropzone">Add Image</NavLink> 
                     </li>
                     <li>
-                        <NavLink to="/fotos">Mijn Fotos</NavLink> 
+                        <NavLink to="/fotos">Images</NavLink> 
                     </li>
                     <li>
-                        <NavLink to="/albums">Mijn Albums</NavLink> 
+                        <NavLink to="/albums">Albums</NavLink> 
                     </li>
                 </ul>
             </nav>            
         </div>
     );
-
 };
 
 function OldNav() {
