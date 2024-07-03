@@ -22,6 +22,8 @@ export const deleteById = async (url, { arg: id }) => {
   await axios.delete(`${baseUrl}/${url}/${id}`);
 };
 
+// oude methode:
+/* 
 export const save = async (url, form) => {
   const foto = form.get("fotoFile");
   const userID = form.get("userID");
@@ -36,4 +38,21 @@ export const save = async (url, form) => {
   //   headers: form.getHeaders(),
   // });
   await axios.postForm(`${baseUrl}/${url}/`,form);
+};
+*/
+
+
+// nieuwe methode:
+export const save = async (url, formData) => {
+  try {
+    const response = await axios.post(`${baseUrl}/${url}/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    throw error;
+  }
 };
