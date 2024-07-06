@@ -82,3 +82,11 @@ nav a.active {
 .card :hover {
   cursor: pointer;
 }
+
+#success-message {
+  color: green;
+}
+
+#error-message {
+  color: red;
+}

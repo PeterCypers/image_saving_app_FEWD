@@ -12,6 +12,13 @@ const fileTypes = ["JPG", "PNG", "GIF"];
 function DragDrop({}) {
   const [file, setFile] = useState(null);
   const [ contextID ] = useOutletContext();
+  const [message, setMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(null);
+
+  //testing lable change of the component -> doesn't seem to work TODO: revisit -> if it breaks, remove from state & props
+  const [label, setLabel] = useState("Drag and drop your file here or click to select");
+
+
 
   // const {
   //   trigger: saveFoto,
@@ -19,11 +26,14 @@ function DragDrop({}) {
   // } = useSWRMutation('transactions', save);
 
   const handleChange = (file) => {
+    setMessage(null);
     setFile(file);
+    setLabel(`File selected: ${file.name}`);
     console.log(file);
+    // console.log(typeof file.lastModifiedDate) -> object type
   };
 
-  //TODO: un-used?
+  // results in null if called instead of the console.log(file)
   const logFile = () => {
     console.log(file);
   }
@@ -48,22 +58,43 @@ function DragDrop({}) {
       );
       formData.append(
         "dateUploaded",
-        dateUploaded.toISOString() //added parsing 2-7-24
+        dateUploaded.toISOString() //added parsing 2-7-24 (is always a string even without parsing toISOString happens regardless)
       );//console.log(formData.getHeaders());//test
-      await save("fotos/save", formData);
-    }else{
-      console.log(file);
-      // een bericht tonen dat je eerst een file moet kiezen
-    }
-    
 
+      try {
+        await save("fotos/save", formData);
+        setMessage('File uploaded successfully');
+        setIsSuccess(true);
+
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          setMessage('File already exists');
+        } else {
+          setMessage('Error uploading file');
+        }
+        setIsSuccess(false);
+      }
+      
+
+    } else {
+      console.log(file);
+      setMessage('Please select a file first');
+      setIsSuccess(false);
+    }
   }
 
-
+  // surround FileUploader with div component & onclick = clear msg -> doesn't work
   return (
     <>
     {/* <Error error={saveError} /> */}
-    <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+    {/* <div onClick={() => setMessage(null)}> */}
+    <FileUploader handleChange={handleChange} name="file" types={fileTypes} label={label} />
+    {/* </div> */}
+    {message && (
+      <p id={isSuccess ? 'success-message' : 'error-message'}>
+        {message}
+        </p>
+    )}
     <button onClick={saveFoto} className="btn btn-primary">ClickMe</button>
     <hr/>
     </>
