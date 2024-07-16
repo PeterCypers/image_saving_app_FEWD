@@ -1,4 +1,4 @@
-import { Nav } from './Nav'
+import { Nav } from './Nav';
 import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 

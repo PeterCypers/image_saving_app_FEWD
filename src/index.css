@@ -90,3 +90,15 @@ nav a.active {
 #error-message {
   color: red;
 }
+
+/* TODO: kan verbeteren */
+.foto-card-list{
+  min-width: 343px;
+  display: flex;
+  flex-wrap: wrap;
+  /* grid-template-columns: repeat(1fr auto); */
+}
+
+.card{
+  width: 18rem;
+}
