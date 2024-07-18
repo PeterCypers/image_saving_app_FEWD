@@ -30,6 +30,19 @@ export default function Fotos() {
     }
      */
 
+    // Function to handle adding photo to album TODO: handle properly using api-call & generate the Date() = dateUploaded here -> maybe formatting to set in db or sent to backend needed
+    const handleAddPhotoToAlbum = (selectedAlbum, newAlbumName, imageId) => {
+        if (selectedAlbum) {
+        console.log(`Adding image ${imageId} to existing album ${selectedAlbum}`);
+        // Handle logic to add image to existing album (selectedAlbum.id or selectedAlbum.name)
+        } else if (newAlbumName) {
+        console.log(`Adding image ${imageId} to new album ${newAlbumName}`);
+        // Handle logic to create new album with newAlbumName and add image to it
+        } else {
+        console.error('No valid album selected or created');
+        }
+    };
+
     return (
         <>
         <h2>--All Fotos--</h2>
@@ -40,7 +53,10 @@ export default function Fotos() {
         {/* {byId.map((foto) => {
             return <p key={foto.fotoID}>User ID: {foto.userID} <br/>DateUploaded: {foto.dateUploaded} <br/>Foto ID: {foto.fotoID} <br/>Location: {foto.location}</p>
         })} */}
-        <FotoCardList allFotos={byId} />
+        <FotoCardList 
+          allFotos={byId}
+          onAddPhotoToAlbum={handleAddPhotoToAlbum}
+        />
 
         <hr/>
         </>

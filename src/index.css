@@ -79,8 +79,12 @@ nav a.active {
   color: darkblue;
 }
 
-.card :hover {
+.card:hover,
+.card-body button:hover {
   cursor: pointer;
+}
+.card-body:hover {
+  cursor: default;
 }
 
 #success-message {
