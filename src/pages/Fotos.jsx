@@ -15,7 +15,9 @@ export default function Fotos() {
     } = useSWR('fotos', getAll);
     // end(1)
     const {
-        data: byId = [],
+        data: byIdData = [],
+        error: byIdError,
+        isLoading
     } = useSWR(`fotos/${contextID}`, getById);
     /** getByID: (om een of ander reden houd data enkel de "items" bij)
      * {"items": [
@@ -44,15 +46,19 @@ export default function Fotos() {
     };
 
     return (
-        <>
+      <>
         <h2>--Fotos User #{contextID}--</h2>
-
-        <FotoCardList 
-          allFotos={byId}
-          onAddPhotoToAlbum={handleAddPhotoToAlbum}
-        />
-
-        <hr/>
-        </>
+        {byIdError ? (
+            <div>{byIdError}</div>
+        ) : isLoading ? (
+            <div>Loading...</div>
+        ) : (
+            <FotoCardList 
+                allFotos={byIdData}
+                onAddPhotoToAlbum={handleAddPhotoToAlbum}
+            />
+        )}
+        <hr />
+      </>
     );
 }
