@@ -4,8 +4,8 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Top } from './components/Top.jsx';
 import DragDrop from './pages/DropZone.jsx';
-import Fotos from './pages/FotosPlaceholder.jsx';
-import Albums from './pages/AlbumsPlaceholder.jsx';
+import Fotos from './pages/Fotos.jsx';
+import Albums from './pages/Albums.jsx';
 import { NotFound } from './pages/NotFound.jsx';
 
 const router = createBrowserRouter([

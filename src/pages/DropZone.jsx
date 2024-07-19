@@ -18,8 +18,6 @@ function DragDrop({}) {
   //testing lable change of the component -> doesn't seem to work TODO: revisit -> if it breaks, remove from state & props
   const [label, setLabel] = useState("Drag and drop your file here or click to select");
 
-
-
   // const {
   //   trigger: saveFoto,
   //   error: saveError,
@@ -28,7 +26,7 @@ function DragDrop({}) {
   const handleChange = (file) => {
     setMessage(null);
     setFile(file);
-    setLabel(`File selected: ${file.name}`);
+    setLabel(`File selected: ${file.name}`); //werkt niet
     console.log(file);
     // console.log(typeof file.lastModifiedDate) -> object type
   };
@@ -95,7 +93,7 @@ function DragDrop({}) {
         {message}
         </p>
     )}
-    <button onClick={saveFoto} className="btn btn-primary">ClickMe</button>
+    <button onClick={saveFoto} className="btn btn-primary">Save Image</button>
     <hr/>
     </>
   );

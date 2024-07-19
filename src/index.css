@@ -79,8 +79,12 @@ nav a.active {
   color: darkblue;
 }
 
-.card :hover {
+.card:hover,
+.card-body button:hover {
   cursor: pointer;
+}
+.card-body:hover {
+  cursor: default;
 }
 
 #success-message {
@@ -89,4 +93,16 @@ nav a.active {
 
 #error-message {
   color: red;
+}
+
+/* TODO: kan verbeteren */
+.foto-card-list{
+  min-width: 343px;
+  display: flex;
+  flex-wrap: wrap;
+  /* grid-template-columns: repeat(1fr auto); */
+}
+
+.card{
+  width: 18rem;
 }
