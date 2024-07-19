@@ -45,7 +45,7 @@ export default function FotoCard({
     return (
       <div className="card m-4" /*style={{ width: "18rem" }}*/>
         {/* img path is absolute from the project-root */}
-      <img className="card-img-top card_img_hover" src="src/images/card_test.jpg" alt="Card image cap" onClick={setVisibleCard} />
+      <img className="card-img-top card_img_hover" src={location} alt="Card image cap" onClick={setVisibleCard} />
       {visibleId === imageId && (
                 <>
                     {showAddToAlbum ? (

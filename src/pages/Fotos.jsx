@@ -45,14 +45,8 @@ export default function Fotos() {
 
     return (
         <>
-        <h2>--All Fotos--</h2>
-        {allFotos.map((foto) => {
-            return <p key={foto.fotoID}>{foto.location}</p>
-        })}
         <h2>--Fotos User #{contextID}--</h2>
-        {/* {byId.map((foto) => {
-            return <p key={foto.fotoID}>User ID: {foto.userID} <br/>DateUploaded: {foto.dateUploaded} <br/>Foto ID: {foto.fotoID} <br/>Location: {foto.location}</p>
-        })} */}
+
         <FotoCardList 
           allFotos={byId}
           onAddPhotoToAlbum={handleAddPhotoToAlbum}

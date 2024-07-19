@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseUrl = `http://localhost:9000/api`;
+// TODO: (easy reference, remove) `http://localhost:9000/api`;
+const baseUrl = import.meta.env.VITE_API_URL;
 
 export const getAll = async (url) => {
   const {
@@ -9,6 +10,7 @@ export const getAll = async (url) => {
 
   return data.items;
 };
+
 //de url bevat de Id al
 export const getById = async (url) => {
   const {
