@@ -43,6 +43,12 @@ export const save = async (url, form) => {
 };
 */
 
+//create
+//update
+export const update = async(url, { arg: body }) => {
+  const { albumID, ...values } = body;
+  await axios.put(`${baseUrl}/${url}/${albumID}`,{values});
+}
 
 // nieuwe methode:
 export const save = async (url, formData) => {

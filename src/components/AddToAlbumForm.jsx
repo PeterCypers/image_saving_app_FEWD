@@ -1,8 +1,7 @@
-//template
 import { useState } from "react";
 
 export default function AddToAlbumForm({ albums, onAdd, onCancel }) {
-  const [selectedAlbum, setSelectedAlbum] = useState('');
+  const [selectedAlbum, setSelectedAlbum] = useState(''); // = albumId
   const [newAlbumName, setNewAlbumName] = useState('');
   const [error, setError] = useState('');
   const [newAlbumError, setNewAlbumError] = useState('');
@@ -24,7 +23,7 @@ export default function AddToAlbumForm({ albums, onAdd, onCancel }) {
           return;
       }
 
-      if (newAlbumName && albums.some(album => album.name === newAlbumName)) {
+      if (newAlbumName && albums.some(album => album.albumName === newAlbumName)) {
           setNewAlbumError('Album name already exists. Please choose a different name.');
           setError('');
           return;
@@ -45,7 +44,7 @@ export default function AddToAlbumForm({ albums, onAdd, onCancel }) {
               >
                   <option value="">-- Select an Album --</option>
                   {albums.map((album) => (
-                      <option key={album.id} value={album.id}>{album.name}</option>
+                      <option key={album.albumID} value={album.albumID}>{album.albumName}</option>
                   ))}
               </select>
           </div>

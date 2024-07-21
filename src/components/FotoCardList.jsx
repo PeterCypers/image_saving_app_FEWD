@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import FotoCard from './FotoCard';
+//import { mockAlbums } from '../api/mock_data';
 
 
 
@@ -7,21 +8,16 @@ import FotoCard from './FotoCard';
 export default function FotoCardList({ allFotos, albums, onAddPhotoToAlbum }) {
   const [ visibleCardId, setVisibleCardId ] = useState(-1);
   //console.log(Object.values(allFotos));
+ 
+  /**
+   * When a card is clicked it should toggle options: visible/invisible, 
+   * when a new card is clicked, previous card options: invisible
+   * 
+   * @param {number} fotoId the id of the foto being clicked
+   */
   const handleSetVisibility = (fotoId) => {
-   //console.log(fotoId);
-    if(fotoId === visibleCardId){
-      setVisibleCardId(-1);
-    }else{
-      setVisibleCardId(fotoId);
-    }
+    setVisibleCardId(fotoId === visibleCardId? -1 : fotoId);
   };
-
-  const mockAlbums = [
-    { id: 1, name: 'Vacation 2021' },
-    { id: 2, name: 'Family' },
-    { id: 3, name: 'Work Events' },
-    { id: 4, name: 'Nature Trips' },
-  ];
 
   const passAddPhotoToAlbumUp = (selectedAlbum, newAlbumName, imageId) => {
     onAddPhotoToAlbum(selectedAlbum, newAlbumName, imageId);
@@ -37,7 +33,7 @@ export default function FotoCardList({ allFotos, albums, onAddPhotoToAlbum }) {
           dateUploaded={foto.dateUploaded}
           onSetVisibility={handleSetVisibility}
           visibleId={visibleCardId}
-          albums={mockAlbums}
+          albums={albums}
           onAddPhotoToAlbum={passAddPhotoToAlbumUp}
         />))}
     </div>

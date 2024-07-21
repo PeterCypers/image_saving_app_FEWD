@@ -38,4 +38,11 @@ const FOTOS_DATA = [
 
 ];
 
-export { FOTOS_DATA };
+const mockAlbums = [
+    { albumID: 1, albumName: 'Vacation 2021' },
+    { albumID: 2, albumName: 'Family' },
+    { albumID: 3, albumName: 'Work Events' },
+    { albumID: 4, albumName: 'Nature Trips' },
+  ];
+
+export { FOTOS_DATA, mockAlbums };

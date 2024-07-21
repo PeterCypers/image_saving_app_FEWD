@@ -15,7 +15,7 @@ export default function Fotos() {
     } = useSWR('fotos', getAll);
     // end(1)
     const {
-        data: byIdData = [],
+        data: byIdFotos = [],
         error: byIdError,
         isLoading
     } = useSWR(`fotos/${contextID}`, getById);
@@ -32,18 +32,43 @@ export default function Fotos() {
     }
      */
 
+    const {
+        data: byIdAlbums = [],
+    } = useSWR(`albums/${contextID}`, getById);
+
+    const { trigger: createAlbum, error: createError } = useSWRMutation('albums', create);
+
+    const { trigger: addPhotoToAlbum, error: updateError } = useSWRMutation('albums', update);
+
+    // const { trigger: deleteTransaction, error: deleteError } = useSWRMutation('albums', save);
+
     // Function to handle adding photo to album TODO: handle properly using api-call & generate the Date() = dateUploaded here -> maybe formatting to set in db or sent to backend needed
-    const handleAddPhotoToAlbum = (selectedAlbum, newAlbumName, imageId) => {
+    /**
+     * @param {string} selectedAlbum not an existing album "" or (example) "1" for existing album nr 1
+     */
+    const handleAddPhotoToAlbum = useCallback(async (selectedAlbum, newAlbumName, imageId) => {
+        // Existing album PUT
         if (selectedAlbum) {
+            await addPhotoToAlbum({
+                albumID: Number(selectedAlbum),
+                imageID: Number(imageId),
+                userID: contextID //TODO: change after login works
+            });
         console.log(`Adding image ${imageId} to existing album ${selectedAlbum}`);
         // Handle logic to add image to existing album (selectedAlbum.id or selectedAlbum.name)
+
+        // New Album POST (add album to albums table, add foto to album_foto table -> in that order)
         } else if (newAlbumName) {
+            await createAlbum({
+                albumName: newAlbumName,
+                userID: contextID
+            });
         console.log(`Adding image ${imageId} to new album ${newAlbumName}`);
         // Handle logic to create new album with newAlbumName and add image to it
         } else {
         console.error('No valid album selected or created');
         }
-    };
+    });
 
     return (
       <>
@@ -54,8 +79,9 @@ export default function Fotos() {
             <div>Loading...</div>
         ) : (
             <FotoCardList 
-                allFotos={byIdData}
+                allFotos={byIdFotos}
                 onAddPhotoToAlbum={handleAddPhotoToAlbum}
+                albums={byIdAlbums}
             />
         )}
         <hr />

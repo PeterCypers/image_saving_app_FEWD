@@ -1,4 +1,4 @@
-import { useCallback, useState, memo } from "react";
+import { useCallback, useState, memo, useMemo } from "react";
 import { useOutletContext } from "react-router-dom";
 import AddToAlbumForm from "./AddToAlbumForm";
 
@@ -18,6 +18,8 @@ export default function FotoCard({
     const [ contextID ] = useOutletContext();
 
     // TODO: er is nog het probleem dat alle foto's re-renderen met de huidige werkwijze
+    // kan mischien opgelost worden met useMemo ipv useCallback en een context wrapper in FotoCardList
+    // setVisibleCard = useMemo ...
     // const [ visibleCardOptions, setVisibleCardOptions ] = useState(false);
 
     // function toggleOptionsVisibility() {
