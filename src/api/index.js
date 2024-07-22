@@ -1,27 +1,43 @@
-import axios from 'axios';
+import axiosRoot from 'axios';
 
-// TODO: (easy reference, remove) `http://localhost:9000/api`;
+// TODO: (easy reference, remove) `http://localhost:9000/api/`;
 const baseUrl = import.meta.env.VITE_API_URL;
 
+// nu zal vöör elk axios request automatisch de baseUrl geplakt worden
+const axios = axiosRoot.create({
+  baseURL: baseUrl,
+});
+
+export const setAuthToken = (token) => {
+  if (token) {
+    // axios.defaults.headers.common['Authorization'] = `Bearer ${token}` -> blackbox ai generated
+    axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers['Authorization'];
+  }
+};
+
+// zal niet meer gebruikt worden? -> outdated: alle fotos (niet op userID)
+// toch wel getAll zal alle fotos voor ingelogde user geven
 export const getAll = async (url) => {
   const {
     data
-  } = await axios.get(`${baseUrl}/${url}`); 
+  } = await axios.get(url); 
 
   return data.items;
 };
 
-//de url bevat de Id al
+//de url = old: Id get all by userID (zal veranderen naar vb: getById fotoID)
 export const getById = async (url) => {
   const {
     data
-  } = await axios.get(`${baseUrl}/${url}`); 
+  } = await axios.get(url); 
 
   return data.items;
 };
 
 export const deleteById = async (url, { arg: id }) => {
-  await axios.delete(`${baseUrl}/${url}/${id}`);
+  await axios.delete(`${url}/${id}`);
 };
 
 // oude methode:
@@ -45,15 +61,21 @@ export const save = async (url, form) => {
 
 //create
 //update
+/**
+ * addPhotoToAlbum ->
+ * 
+ * @param {*} url 
+ * @param {*} param1 
+ */
 export const update = async(url, { arg: body }) => {
   const { albumID, ...values } = body;
-  await axios.put(`${baseUrl}/${url}/${albumID}`,{values});
+  await axios.put(`${url}/${albumID}`,{values});
 }
 
 // nieuwe methode:
 export const save = async (url, formData) => {
   try {
-    const response = await axios.post(`${baseUrl}/${url}/`, formData, {
+    const response = await axios.post(`${url}/`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -63,4 +85,11 @@ export const save = async (url, formData) => {
     console.error('Error uploading file:', error);
     throw error;
   }
+};
+
+
+// voor login
+export const post = async (url, { arg }) => {
+  const { data } = await axios.post(url, arg);
+  return data;
 };

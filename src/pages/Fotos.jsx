@@ -1,8 +1,9 @@
 import useSWR from "swr";
-import { getAll, getById } from "../api";
+import { getAll, getById, /*create,*/ update } from "../api";
 import { useOutletContext } from "react-router-dom";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import FotoCardList from "../components/FotoCardList";
+import useSWRMutation from 'swr/mutation';
 
 
 // TODO: fotos in een card component met features om ze aan albums toe te voegen of om ze te verwijderen
@@ -36,9 +37,9 @@ export default function Fotos() {
         data: byIdAlbums = [],
     } = useSWR(`albums/${contextID}`, getById);
 
-    const { trigger: createAlbum, error: createError } = useSWRMutation('albums', create);
-
-    const { trigger: addPhotoToAlbum, error: updateError } = useSWRMutation('albums', update);
+    // TODO *
+    // const { trigger: createAlbum, error: createError } = useSWRMutation('albums', create);
+    // const { trigger: addPhotoToAlbum, error: updateError } = useSWRMutation('albums', update);
 
     // const { trigger: deleteTransaction, error: deleteError } = useSWRMutation('albums', save);
 
@@ -49,20 +50,23 @@ export default function Fotos() {
     const handleAddPhotoToAlbum = useCallback(async (selectedAlbum, newAlbumName, imageId) => {
         // Existing album PUT
         if (selectedAlbum) {
-            await addPhotoToAlbum({
-                albumID: Number(selectedAlbum),
-                imageID: Number(imageId),
-                userID: contextID //TODO: change after login works
-            });
+            // TODO *
+            // await addPhotoToAlbum({
+            //     albumID: Number(selectedAlbum),
+            //     imageID: Number(imageId),
+            //     userID: contextID //TODO: change after login works
+            // });
         console.log(`Adding image ${imageId} to existing album ${selectedAlbum}`);
         // Handle logic to add image to existing album (selectedAlbum.id or selectedAlbum.name)
 
         // New Album POST (add album to albums table, add foto to album_foto table -> in that order)
         } else if (newAlbumName) {
-            await createAlbum({
-                albumName: newAlbumName,
-                userID: contextID
-            });
+            // TODO *
+            // await createAlbumAndAddPhotoToAlbum({
+            //     albumName: newAlbumName,
+            //     imageID: Number(imageId),
+            //     userID: contextID
+            // });
         console.log(`Adding image ${imageId} to new album ${newAlbumName}`);
         // Handle logic to create new album with newAlbumName and add image to it
         } else {
