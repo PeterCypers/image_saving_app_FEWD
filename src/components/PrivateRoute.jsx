@@ -7,11 +7,14 @@ export default function PrivateRoute() {
 
   const loginPath = `/login?redirect=${pathname}`; // vb /login?redirect=/places
 
+  //Case Token expired wordt niet afgehandeld...
+
   // nog niet authenticated
   if (!ready) {
     console.log("PrivateRoute not ready");
     return (
-      // <div className="spinner-border text-primary" role="status"></div> // TODO: blackbox -> check what it looks like
+      <>
+      <div className="spinner-border text-primary" role="status"></div> {/*blackbox generated spinner*/}
       <div>
         <div>
           <div>
@@ -20,13 +23,16 @@ export default function PrivateRoute() {
           </div>
         </div>
       </div>
+      </>
     )
   }
 
   // we zijn aangemeld -> toon de juiste component
   if (isAuthed) {
     console.log("PrivateRoute isAuthed");
-    return (<Outlet />);
+    return (
+      <Outlet />
+    );
   }
 
   console.log("PrivateRoute navigate to login");

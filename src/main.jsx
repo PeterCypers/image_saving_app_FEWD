@@ -10,6 +10,8 @@ import Fotos from './pages/Fotos.jsx';
 import Albums from './pages/Albums.jsx';
 import { NotFound } from './pages/NotFound.jsx';
 import { AuthProvider } from './contexts/Auth.context.jsx';
+import Logout from './pages/Logout.jsx';
+import Register from './pages/Register.jsx';
 
 const router = createBrowserRouter([
   {
@@ -17,11 +19,18 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
+    path: '/logout',
+    element: <Logout />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
+  {
     path: "/",
     element: <PrivateRoute />,
     children: [
       {
-
         // index: true,
         path: "/",
         element: <Top />,

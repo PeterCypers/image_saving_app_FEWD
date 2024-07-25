@@ -2,6 +2,13 @@ import { Nav } from "./components/pageElements/Nav"
 import DragDrop from "./components/pageElements/DropZone"
 import { useState } from "react";
 
+
+/**
+ * Fully depricated:
+ * Now using RouterProvider with Top as leading component.
+ * 
+ * @returns old app component
+ */
 function App() {
 
   const [ userID, setUserID ] = useState('1');
@@ -41,4 +48,3 @@ function App() {
 }
 
 export default App
-// app depricated, using RouterProvider with Top as leading component

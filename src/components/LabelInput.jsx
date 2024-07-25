@@ -29,7 +29,7 @@ export default function LabelInput({
       />
       {hasError ? (
         <div className="form-text text-danger" data-cy="label_input_error">
-          {errors[name]}
+          {errors[name].message}
         </div>
       ) : null}
     </div>

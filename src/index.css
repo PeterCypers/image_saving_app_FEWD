@@ -20,11 +20,11 @@ body > * {
   width: 100%;
 }
 
-#login-component-placeholder{
+#login-component{
   display: grid;
 }
-#login-component-placeholder button,
-#login-component-placeholder p{
+#login-component button,
+#login-component p{
   justify-self: center;
 }
 #login-btn{

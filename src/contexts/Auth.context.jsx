@@ -14,17 +14,34 @@ export const AuthProvider = ({ children }) => {
   const [ready, setReady] = useState(false);
   const [isAuthed, setIsAuthed] = useState(false);
 
-  const {
-    isMutating: loading,
-    error,
-    trigger: doLogin,
-  } = useSWRMutation('users/login', api.post);
-
   useEffect(() => {
     api.setAuthToken(token);
     setIsAuthed(Boolean(token)); // = !!token (checks if it has a value -> illegible)
     setReady(true);
   },[token]);
+
+  const {
+    isMutating: loginLoading,
+    error: loginError,
+    trigger: doLogin,
+  } = useSWRMutation('users/login', api.post);
+
+  const {
+    isMutating: registerLoading,
+    error: registerError,
+    trigger: doRegister,
+  } = useSWRMutation('users/register', api.post);
+
+  const setSession = useCallback(
+    (token, user) => {
+      setToken(token);
+      setUser(user);
+
+      localStorage.setItem(JWT_TOKEN_KEY, token); 
+      localStorage.setItem(USER_ID_KEY, user.userID); 
+    },
+    []
+  );
 
  
   const login = useCallback(
@@ -35,11 +52,7 @@ export const AuthProvider = ({ children }) => {
           password,
         });
 
-        setToken(token); 
-        setUser(user); 
-
-        localStorage.setItem(JWT_TOKEN_KEY, token); 
-        localStorage.setItem(USER_ID_KEY, user.id); 
+        setSession(token, user);
 
         return true;
         
@@ -48,9 +61,22 @@ export const AuthProvider = ({ children }) => {
         return false;
       }
     },
-    [doLogin]
+    [doLogin, setSession]
   );
 
+  const register = useCallback(
+    async (data) => {
+      try {
+        const { token, user } = await doRegister(data);
+        setSession(token, user);
+        return true;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    },
+    [doRegister, setSession],
+  );
 
   const logout = useCallback(() => {
     setToken(null);
@@ -64,14 +90,15 @@ export const AuthProvider = ({ children }) => {
     () => ({
       token,
       user,
-      error,
-      loading,
+      error: loginError || registerError,
+      loading: loginLoading || registerLoading,
       ready,
       isAuthed,
       login,
       logout,
+      register,
     }),
-    [token, user, error, loading, ready, isAuthed, login, logout]
+    [token, user, loginError, registerError, loginLoading, registerLoading, ready, isAuthed, login, logout, register]
   );
 
   return (
