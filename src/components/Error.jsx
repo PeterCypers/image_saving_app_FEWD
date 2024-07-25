@@ -11,7 +11,7 @@ export default function Error({ error }) {
             <>
               :
               <br />
-              {helper(error.response.data.details.body)}
+              {formatJoiValidationErrorMessage(error.response.data.details.body)}
               {/* {JSON.stringify(error.response.data.details.body.password[0].message)} */}
               {/* {console.log(error.response.data.details.body.password)} */}
               {/* {JSON.stringify(error.response.data.details.body.password).substring(45 ,JSON.stringify(error.response.data.details.body.password).lastIndexOf(`"`))} */}
@@ -36,7 +36,7 @@ export default function Error({ error }) {
   return null;
 }
 
-function helper(errMsg) {
+function formatJoiValidationErrorMessage(errMsg) {
   const removeQuotes = (str) => str.replace(/\\\"/g, '');
   if (errMsg.password){
     return removeQuotes(JSON.stringify(errMsg.password[0].message));

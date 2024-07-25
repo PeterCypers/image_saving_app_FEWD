@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { useAuth } from '../contexts/Auth.context';
 import { useNavigate } from 'react-router';
 import Error from '../components/Error';
+import { Link } from 'react-router-dom';
 
 const validationRules = {
   email: {
@@ -46,53 +47,55 @@ export default function Login() {
     ,[login]);
 
   return (
-    <FormProvider {...methods}>
-      <div className='container'>
-        <form
-          onSubmit={handleSubmit(handleLogin)}
-          className='d-flex flex-column'>
-          <h1>Sign in</h1>
+      <FormProvider {...methods}>
+        <div className='container'>
+          <form
+            onSubmit={handleSubmit(handleLogin)}
+            className='d-flex flex-column'>
+            <h1>Sign in</h1>
 
-          {/* TODO check if works & I want to replace the error component since I don't like it's appearance */}
-          <Error error={error} />
-          {/* {(error) && <div  className="text-danger">{error}</div>} */}
+            <Error error={error} />
+            {/* {(error) && <div  className="text-danger">{error}</div>} */}
 
-          <LabelInput
-            label='email'
-            type='text'
-            name='email'
-            placeholder='your@email.com'
-            validationRules={validationRules.email}
-          />
+            <LabelInput
+              label='email'
+              type='text'
+              name='email'
+              placeholder='your@email.com'
+              validationRules={validationRules.email}
+            />
 
-          <LabelInput
-            label='password'
-            type='password'
-            name='password'
-            validationRules={validationRules.password}
-          />
+            <LabelInput
+              label='password'
+              type='password'
+              name='password'
+              validationRules={validationRules.password}
+            />
 
-          <div className='clearfix'>
-            <div className='btn-group float-end'>
-              <button
-                type='submit'
-                className='btn btn-primary'
-                disabled={loading}
-              >
-                Sign in
-              </button>
+            <div className='clearfix'>
+              <div className='btn-group float-end'>
+                <button
+                  type='submit'
+                  className='btn btn-primary'
+                  disabled={loading}
+                >
+                  Sign in
+                </button>
 
-              <button
-                type='button'
-                className='btn btn-light'
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
+                {/* <button
+                  type='button'
+                  className='btn btn-light'
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button> */}
+              </div>
             </div>
+          </form>
+          <div className='mt-3'>
+            <Link replace to={"/register"}>register new account</Link>
           </div>
-        </form>
-      </div>
-    </FormProvider>
+        </div>
+      </FormProvider>
   );
 }

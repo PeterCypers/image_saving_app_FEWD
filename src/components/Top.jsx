@@ -1,14 +1,26 @@
 import { Nav } from './Nav';
 import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from '../contexts/Auth.context';
 
 export function Top() {
   //TODO: set real user-id in state after login or get it from the auth-context and put that in outlet context
     const [ userID, setUserID ] = useState('1');
+    const { isAuthed } = useAuth();
 
     const navigate = useNavigate();
 
     const handleGoHome = () => navigate("/", { replace: true });
+
+    const handleLogin = () => {
+      if (!isAuthed){
+        navigate("/login", { replace: true });
+      }
+      if (confirm("Are you sure you want to log out?")){
+        navigate("/logout", { replace: true });
+      }
+      
+    };
 
     return (
     <>
@@ -16,11 +28,11 @@ export function Top() {
       <h1 className='permanent-marker-regular'>Image Collection</h1>
 
       {/* TODO: replace with real login component */}
-      <div id="login-component-placeholder">
-        <button id="login-btn">
+      <div id="login-component">
+        <button id="login-btn" onClick={handleLogin}>
           <img id="login-img" src="src/images/login01.png" alt="" />
         </button>
-        <p>login placeholder</p>
+        <p>{`${isAuthed? 'logout' : 'login'}`}</p>
       </div>
 
       </header>
