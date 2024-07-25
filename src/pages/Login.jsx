@@ -3,7 +3,7 @@ import LabelInput from '../components/LabelInput';
 import { useCallback } from 'react';
 import { useAuth } from '../contexts/Auth.context';
 import { useNavigate } from 'react-router';
-//import Error from '../components/Error';
+import Error from '../components/Error';
 
 const validationRules = {
   email: {
@@ -20,8 +20,8 @@ export default function Login() {
 
   const methods = useForm({
     defaultValues: {
-      email: 'firstEmail@hotmail.com',
-      password: '1234'
+      email: 'first.user@hotmail.com',
+      password: '12345678'
     }
   });
 
@@ -54,8 +54,8 @@ export default function Login() {
           <h1>Sign in</h1>
 
           {/* TODO check if works & I want to replace the error component since I don't like it's appearance */}
-          {/* <Error error={error} /> */}
-          {(error) && <div  className="text-danger">{error}</div>}
+          <Error error={error} />
+          {/* {(error) && <div  className="text-danger">{error}</div>} */}
 
           <LabelInput
             label='email'
