@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Login from './pages/Login.jsx';
+import PrivateRoute from './components/PrivateRoute.jsx';
 import { Top } from './components/Top.jsx';
 import DragDrop from './pages/DropZone.jsx';
 import Fotos from './pages/Fotos.jsx';
@@ -17,10 +18,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Top />,
+    element: <PrivateRoute />,
     children: [
+      {
+
+        // index: true,
+        path: "/",
+        element: <Top />,
+        children: [
           {
-            index: true,
             path: "dropzone",
             element: <DragDrop />
           },
@@ -33,6 +39,8 @@ const router = createBrowserRouter([
             element: <Albums />
           }
         ]
+      }
+    ]
   },
   {
     path: '*',
@@ -42,9 +50,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* <AuthProvider> */}
+    <AuthProvider>
       <RouterProvider router={router} />
       {/* <App /> */}
-    {/* </AuthProvider> */}
+    </AuthProvider>
   </React.StrictMode>,
 )

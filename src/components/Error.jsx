@@ -7,11 +7,16 @@ export default function Error({ error }) {
         <h4 className="alert-heading">Oops, something went wrong</h4>
         <p>
           {error.response.data?.message || error.message}
-          {error.response.data?.details && (
+          {error.response.data?.details && Object.keys(error.response.data.details).length > 0 && (
             <>
               :
               <br />
-              {JSON.stringify(error.response.data.details)}
+              {helper(error.response.data.details.body)}
+              {/* {JSON.stringify(error.response.data.details.body.password[0].message)} */}
+              {/* {console.log(error.response.data.details.body.password)} */}
+              {/* {JSON.stringify(error.response.data.details.body.password).substring(45 ,JSON.stringify(error.response.data.details.body.password).lastIndexOf(`"`))} */}
+              {/* {JSON.stringify(Object.keys(error.response.data.details.body))} */}
+              {/* {JSON.stringify(error.response.data.details.body.password)} */}
             </>
           )}
         </p>
@@ -29,4 +34,14 @@ export default function Error({ error }) {
   }
 
   return null;
+}
+
+function helper(errMsg) {
+  const removeQuotes = (str) => str.replace(/\\\"/g, '');
+  if (errMsg.password){
+    return removeQuotes(JSON.stringify(errMsg.password[0].message));
+  }
+  if (errMsg.email){
+    return removeQuotes(JSON.stringify(errMsg.email[0].message));
+  }
 }
