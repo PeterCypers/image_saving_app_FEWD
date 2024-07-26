@@ -33,9 +33,13 @@ export default function Fotos() {
     }
      */
 
+    //TODO [remove] albums are no longer by-id get -> i was getting all by userID, now I need to just getAll
     const {
         data: byIdAlbums = [],
     } = useSWR(`albums/${contextID}`, getById);
+    const {
+        data: allAlbums = [],
+    } = useSWR('albums', getAll);
 
     // TODO *
     // const { trigger: createAlbum, error: createError } = useSWRMutation('albums', create);
@@ -85,7 +89,7 @@ export default function Fotos() {
             <FotoCardList 
                 allFotos={byIdFotos}
                 onAddPhotoToAlbum={handleAddPhotoToAlbum}
-                albums={byIdAlbums}
+                albums={allAlbums}
             />
         )}
         <hr />
