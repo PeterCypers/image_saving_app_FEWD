@@ -12,25 +12,23 @@ export default function FotoCard({
     albums,
     onSetVisibility,
     visibleId,
-    onAddPhotoToAlbum
+    onAddPhotoToAlbum,
+    addToAlbumError,
+    resetAlbumError,
+    albumSuccessMessage
   }) {
     const [ showAddToAlbum, setShowAddToAlbum ] = useState(false);
     const [ contextID ] = useOutletContext();
+    //const [thisCardHasAxiosError, setThisCardHasAxiosError] = useState(addToAlbumError? true: false);
+    const [ errorMessage, setErrorMessage ] = useState("");
 
-    // TODO: er is nog het probleem dat alle foto's re-renderen met de huidige werkwijze
-    // kan mischien opgelost worden met useMemo ipv useCallback en een context wrapper in FotoCardList
-    // setVisibleCard = useMemo ...
-    // const [ visibleCardOptions, setVisibleCardOptions ] = useState(false);
-
-    // function toggleOptionsVisibility() {
-    //   setVisibleCardOptions(!visibleCardOptions);
-    // }
 
     const setVisibleCard = useCallback(() => {
       onSetVisibility(imageId);
     }, [imageId, onSetVisibility]);
 
     const handleAddToAlbumClick = () => {
+      resetAlbumError(); //reset from useSWRMutation to clear the lingering error msg when reloading the form
       setShowAddToAlbum(true);
     };
 
@@ -38,10 +36,20 @@ export default function FotoCard({
         setShowAddToAlbum(false);
     };
 
-    const handleAdd = (selectedAlbum, newAlbumName) => {
+    const handleAdd = async (selectedAlbum, newAlbumName) => {
+      //attempt
+      //resetAlbumError();
 
-      onAddPhotoToAlbum(selectedAlbum, newAlbumName, imageId);
-      setShowAddToAlbum(false);
+      const success = await onAddPhotoToAlbum(selectedAlbum, newAlbumName, imageId);
+      console.log(success);
+      if (!success /*addToAlbumError && addToAlbumError.response.data?.message.includes(`${imageId}`)*/){
+        setShowAddToAlbum(true);
+        console.log("in fail");
+
+      }else{
+        setShowAddToAlbum(false);
+        console.log("in success");
+      }
     };
 
     return (
@@ -51,7 +59,7 @@ export default function FotoCard({
       {visibleId === imageId && (
                 <>
                     {showAddToAlbum ? (
-                        <AddToAlbumForm albums={albums} onAdd={handleAdd} onCancel={handleCancel} />
+                        <AddToAlbumForm imageId={imageId} albums={albums} onAdd={handleAdd} onCancel={handleCancel} addToAlbumError={addToAlbumError} albumSuccessMessage={albumSuccessMessage} />
                     ) : (
                         <div className="card-body">
                             <div className="d-flex p-2 justify-content-around">

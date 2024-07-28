@@ -53,6 +53,12 @@ export default function Register() {
     },
   }), [getValues]);
 
+  //TODO possible same error as login, fix:
+  // if(isAuthed){
+  //   //requires import
+  //   return <Navigate replace to={'/'} />
+  // }
+
   return (
     <FormProvider {...methods}>
       <div className={`container bg-${theme} text-${oppositeTheme}`}>

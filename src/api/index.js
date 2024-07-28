@@ -67,9 +67,9 @@ export const save = async (url, form) => {
  * @param {*} url 
  * @param {*} param1 
  */
-export const update = async(url, { arg: body }) => {
-  const { albumID, ...values } = body;
-  await axios.put(`${url}/${albumID}`,{values});
+export const addPhotoToAlbumRequest = async(url, { arg: body }) => {
+  const { albumID, imageID, ...values } = body;
+  await axios.post(`${url}/${albumID}/${imageID}`, {}); //empty object for back-end validation -> will throw the default error msg in core/validation.js
 }
 
 // nieuwe methode:

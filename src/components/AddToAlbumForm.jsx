@@ -1,10 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+import Error from './Error';
 
-export default function AddToAlbumForm({ albums, onAdd, onCancel }) {
+export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addToAlbumError, albumSuccessMessage }) {
   const [selectedAlbum, setSelectedAlbum] = useState(''); // = albumId
   const [newAlbumName, setNewAlbumName] = useState('');
   const [error, setError] = useState('');
   const [newAlbumError, setNewAlbumError] = useState('');
+  const [ addAlbumErrorMessage, setAddAlbumErrorMessage ] = useState('');
+  const [ addAlbumSuccessMessage, setAddAlbumSuccessMessage ] = useState('');
+
+// axios error bestaat:
+  useEffect(() => {
+    if (addToAlbumError) {
+        if (addToAlbumError.response.data?.message.includes(`${imageId}`)){
+            setAddAlbumErrorMessage(addToAlbumError.response.data.message);
+        }
+        else{
+            setAddAlbumErrorMessage('');
+        }
+    }
+  }, [addToAlbumError]);
+
+  useEffect(() => {
+    if (albumSuccessMessage){
+        if (Number(albumSuccessMessage.match(/\d+/)[0]) === imageId){
+            setAddAlbumSuccessMessage(albumSuccessMessage);
+        }
+        else{
+            setAddAlbumSuccessMessage('');
+        }
+    }
+  }, [albumSuccessMessage]);
 
   const handleAlbumSelect = (e) => {
       const selectedAlbumId = e.target.value;
@@ -13,6 +39,8 @@ export default function AddToAlbumForm({ albums, onAdd, onCancel }) {
       //case: filling in 'x' in new album & then selecting 'x' in options would lead to an error
       setNewAlbumName('');
       setNewAlbumError('');
+      setAddAlbumErrorMessage('');
+      setError(''); //reset err message on selecting a new album
 
   };
 
@@ -29,8 +57,21 @@ export default function AddToAlbumForm({ albums, onAdd, onCancel }) {
           return;
       }
 
+      if (error){
+        return
+      }
+
       onAdd(selectedAlbum, newAlbumName);
+
+
+      //needed?
+    //   if (!addToAlbumError) {
+    //     setSelectedAlbum('');
+    //     setNewAlbumName('');
+    //   }
+
   };
+
 
   return (
       <div className="card-body">
@@ -59,9 +100,13 @@ export default function AddToAlbumForm({ albums, onAdd, onCancel }) {
                       onChange={(e) => setNewAlbumName(e.target.value)}
                   />
                   {(error || newAlbumError) && <div className="text-danger">{error?error:newAlbumError}</div>}
+                  {/* {(addToAlbumError) && <div  className="text-danger">{addToAlbumError.response.data?.message}</div>} */}
+                  {/* <Error error={axiosErrorState} /> */}
 
               </div>
           )}
+          {(addAlbumErrorMessage) && <div  className="text-danger">{addAlbumErrorMessage}</div>}
+          {(!addAlbumErrorMessage && addAlbumSuccessMessage) && <div  className="text-success">{addAlbumSuccessMessage}</div>}
           <div className="d-flex p-2 justify-content-around">
               <button type="button" className="btn btn-primary" onClick={onSubmit}>Add</button>
               <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancel</button>
