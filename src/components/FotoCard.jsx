@@ -15,7 +15,8 @@ export default function FotoCard({
     onAddPhotoToAlbum,
     addToAlbumError,
     resetAlbumError,
-    albumSuccessMessage
+    albumSuccessMessage,
+    setAlbumSuccessMessage
   }) {
     const [ showAddToAlbum, setShowAddToAlbum ] = useState(false);
     const [ contextID ] = useOutletContext();
@@ -29,8 +30,13 @@ export default function FotoCard({
 
     const handleAddToAlbumClick = () => {
       resetAlbumError(); //reset from useSWRMutation to clear the lingering error msg when reloading the form
+      fotoCardSetAlbumSuccessMessage('');
       setShowAddToAlbum(true);
     };
+
+    const fotoCardSetAlbumSuccessMessage = async (message) => {
+      setAlbumSuccessMessage(message);
+    }
 
     const handleCancel = () => {
         setShowAddToAlbum(false);
@@ -59,7 +65,7 @@ export default function FotoCard({
       {visibleId === imageId && (
                 <>
                     {showAddToAlbum ? (
-                        <AddToAlbumForm imageId={imageId} albums={albums} onAdd={handleAdd} onCancel={handleCancel} addToAlbumError={addToAlbumError} albumSuccessMessage={albumSuccessMessage} />
+                        <AddToAlbumForm imageId={imageId} albums={albums} onAdd={handleAdd} onCancel={handleCancel} addToAlbumError={addToAlbumError} albumSuccessMessage={albumSuccessMessage} setAlbumSuccessMessage={fotoCardSetAlbumSuccessMessage} />
                     ) : (
                         <div className="card-body">
                             <div className="d-flex p-2 justify-content-around">

@@ -12,8 +12,13 @@ export default function Fotos() {
     const [ contextID ] = useOutletContext();
 
     const [errorMessage, setErrorMessage] = useState('');
-    const [axiosError, setAxiosError] = useState(null);
+    const [axiosError, setAxiosError] = useState(null); //not used -> error from useSWRMut == axiosError
     const [albumSuccessMessage, setAlbumSuccessMessage] = useState('');
+
+    const handleSetAlbumSuccessMessage = (successMessage) => {
+        //console.log("successmessage:" + successMessage, albumSuccessMessage); //debugging
+        setAlbumSuccessMessage(successMessage? successMessage : '');
+      };
 
     const {
         data: byIdFotos = [],
@@ -83,7 +88,6 @@ export default function Fotos() {
             //return true;
         } catch (error) {
             success = false;
-            console.log(error);
             if (error.response) {
                 setAxiosError(error);
             } else {
@@ -111,6 +115,7 @@ export default function Fotos() {
                 addToAlbumError={addToAlbumError}
                 resetAlbumError={resetAlbumError}
                 albumSuccessMessage={albumSuccessMessage}
+                setAlbumSuccessMessage={handleSetAlbumSuccessMessage}
             />
         )}
         <hr />

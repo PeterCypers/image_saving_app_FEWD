@@ -5,13 +5,13 @@ export default function Error({ error }) {
 
 
     /* debugging */
-    console.log(error.message);
-    console.log(error.response);
-    console.log(error.response.data?.message);
-    console.log(error.response.data?.details);
-    return (
-      <div  className="text-danger">axios error exists</div>
-    )
+    // console.log(error.message);
+    // console.log(error.response);
+    // console.log(error.response.data?.message);
+    // console.log(error.response.data?.details);
+    // return (
+    //   <div  className="text-danger">axios error exists</div>
+    // )
 
     return (
       <div className="alert alert-danger" data-cy="axios_error_message">

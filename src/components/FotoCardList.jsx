@@ -5,7 +5,7 @@ import FotoCard from './FotoCard';
 
 
 // TODO: get-request all albums as an array in above component
-export default function FotoCardList({ allFotos, albums, onAddPhotoToAlbum, addToAlbumError, resetAlbumError, albumSuccessMessage }) {
+export default function FotoCardList({ allFotos, albums, onAddPhotoToAlbum, addToAlbumError, resetAlbumError, albumSuccessMessage, setAlbumSuccessMessage }) {
   const [ visibleCardId, setVisibleCardId ] = useState(-1);
   //console.log(Object.values(allFotos));
  
@@ -38,6 +38,7 @@ export default function FotoCardList({ allFotos, albums, onAddPhotoToAlbum, addT
           addToAlbumError={addToAlbumError}
           resetAlbumError={resetAlbumError}
           albumSuccessMessage={albumSuccessMessage}
+          setAlbumSuccessMessage={setAlbumSuccessMessage}
         />))}
     </div>
   )

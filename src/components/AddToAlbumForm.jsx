@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Error from './Error';
 
-export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addToAlbumError, albumSuccessMessage }) {
+export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addToAlbumError, albumSuccessMessage, setAlbumSuccessMessage }) {
   const [selectedAlbum, setSelectedAlbum] = useState(''); // = albumId
   const [newAlbumName, setNewAlbumName] = useState('');
   const [error, setError] = useState('');
@@ -22,7 +22,7 @@ export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addTo
   }, [addToAlbumError]);
 
   useEffect(() => {
-    if (albumSuccessMessage){
+    if (albumSuccessMessage && !albumSuccessMessage.includes('reset')){
         if (Number(albumSuccessMessage.match(/\d+/)[0]) === imageId){
             setAddAlbumSuccessMessage(albumSuccessMessage);
         }
@@ -40,6 +40,8 @@ export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addTo
       setNewAlbumName('');
       setNewAlbumError('');
       setAddAlbumErrorMessage('');
+      setAddAlbumSuccessMessage('');
+      setAlbumSuccessMessage('reset'); //set state of the Fotos.albumSuccessMessage with a !!non-empty!! value to trigger props-change-chain, it'll be overwritten with relevant messages
       setError(''); //reset err message on selecting a new album
 
   };
