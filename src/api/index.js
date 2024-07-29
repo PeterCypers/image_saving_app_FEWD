@@ -75,7 +75,7 @@ export const addPhotoToAlbumRequest = async(url, { arg: body }) => {
 // nieuwe methode:
 export const save = async (url, formData) => {
   try {
-    const response = await axios.post(`${url}/`, formData, {
+    const response = await axios.post(`${url}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

@@ -6,10 +6,8 @@ import FotoCardList from "../components/FotoCardList";
 import useSWRMutation from 'swr/mutation';
 
 
-// TODO: fotos in een card component met features om ze aan albums toe te voegen of om ze te verwijderen
 export default function Fotos() {
-    // const id = document.getElementById("id-select").value;
-    const [ contextID ] = useOutletContext();
+    // const [ contextID ] = useOutletContext(); (1):zie top
 
     const [errorMessage, setErrorMessage] = useState('');
     const [axiosError, setAxiosError] = useState(null); //not used -> error from useSWRMut == axiosError
@@ -20,11 +18,17 @@ export default function Fotos() {
         setAlbumSuccessMessage(successMessage? successMessage : '');
       };
 
+    // now fotos get all by logged in user
     const {
-        data: byIdFotos = [],
-        error: byIdError,
-        isLoading
-    } = useSWR(`fotos/${contextID}`, getById);
+    data: allFotos = [],
+    error: fotosError,
+    isLoading
+    } = useSWR('fotos', getAll);
+    // const {
+    //     data: byIdFotos = [],
+    //     error: byIdError,
+    //     isLoading
+    // } = useSWR(`fotos/${contextID}`, getById);
     /** getByID: (om een of ander reden houd data enkel de "items" bij)
      * {"items": [
         {
@@ -38,10 +42,10 @@ export default function Fotos() {
     }
      */
 
-    //TODO [remove] albums are no longer by-id get -> i was getting all by userID, now I need to just getAll
-    const {
-        data: byIdAlbums = [],
-    } = useSWR(`albums/${contextID}`, getById);
+    // albums are no longer by-id get -> i was getting all by userID, now I need to just getAll
+    // const {
+    //     data: byIdAlbums = [],
+    // } = useSWR(`albums/${contextID}`, getById);
     const {
         data: allAlbums = [],
     } = useSWR('albums', getAll);
@@ -102,14 +106,14 @@ export default function Fotos() {
 
     return (
       <>
-        <h2>--Fotos User #{contextID}--</h2>
-        {byIdError ? (
-            <div>{byIdError}</div>
+        {/* <h2>--Fotos User #{contextID}--</h2> */} {/* (1) */ }
+        {fotosError ? (
+            <div>{fotosError}</div>
         ) : isLoading ? (
             <div>Loading...</div>
         ) : (
             <FotoCardList 
-                allFotos={byIdFotos}
+                allFotos={allFotos}
                 onAddPhotoToAlbum={handleAddPhotoToAlbum}
                 albums={allAlbums}
                 addToAlbumError={addToAlbumError}

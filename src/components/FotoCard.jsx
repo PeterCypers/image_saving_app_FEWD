@@ -1,5 +1,5 @@
 import { useCallback, useState, memo, useMemo } from "react";
-import { useOutletContext } from "react-router-dom";
+//import { useOutletContext } from "react-router-dom"; // (1): zie top
 import AddToAlbumForm from "./AddToAlbumForm";
 
 //TODO: add to album -> how will it work? at the moment I was thinking of replacing the button when clicked with a list of 
@@ -19,7 +19,7 @@ export default function FotoCard({
     setAlbumSuccessMessage
   }) {
     const [ showAddToAlbum, setShowAddToAlbum ] = useState(false);
-    const [ contextID ] = useOutletContext();
+    // const [ contextID ] = useOutletContext(); // (1): zie top
     //const [thisCardHasAxiosError, setThisCardHasAxiosError] = useState(addToAlbumError? true: false);
     const [ errorMessage, setErrorMessage ] = useState("");
 
