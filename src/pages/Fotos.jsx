@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { getAll, getById, /*create, update,*/ postPhoto } from "../api";
+import { deleteById, getAll, getById, /*create, update,*/ postPhoto } from "../api";
 import { useOutletContext } from "react-router-dom";
 import { useState, useCallback } from "react";
 import FotoCardList from "../components/FotoCardList";
@@ -56,9 +56,10 @@ export default function Fotos() {
     const { trigger: addPhotoToAlbum, error: addToAlbumError, reset: resetAlbumError } = useSWRMutation('albums', postPhoto);
     const { trigger: createAlbumAndAddPhotoToAlbum, error: createAndAddToAlbumError, reset: resetCreateAlbumError } = useSWRMutation('albums/create-and-add-photo', postPhoto);
 
-    // const { trigger: deleteTransaction, error: deleteError } = useSWRMutation('albums', save);
+    const { trigger: deletePhoto, error: deletePhotoError } = useSWRMutation('fotos', deleteById);
+    
 
-    // Function to handle adding photo to album TODO: handle properly using api-call & generate the Date() = dateUploaded here -> maybe formatting to set in db or sent to backend needed
+    // Function to handle adding photo to album || creating an album and then adding a photo
     /**
      * @param {string} selectedAlbum not an existing album "" or (example) "1" for existing album nr 1
      */
@@ -104,7 +105,7 @@ export default function Fotos() {
         }finally{
             return success;
         }
-    },[addPhotoToAlbum]);
+    },[addPhotoToAlbum, createAlbumAndAddPhotoToAlbum]);
 
     return (
       <>
@@ -122,6 +123,7 @@ export default function Fotos() {
                 resetAlbumError={resetAlbumError /* || resetCreateAlbumError */} // create & add should cause no conflicts...case handled in: components/AddToAlbumForm.jsx.onSubmit() //TODO: followup
                 albumSuccessMessage={albumSuccessMessage}
                 setAlbumSuccessMessage={handleSetAlbumSuccessMessage}
+                onDeletePhoto={deletePhoto}
             />
         )}
         <hr />
