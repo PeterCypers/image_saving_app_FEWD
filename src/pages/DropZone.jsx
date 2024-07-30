@@ -46,7 +46,7 @@ function DragDrop({}) {
       const formData = new FormData();
 
       const dateUploaded = new Date();
-      const userID = user.userId || localStorage.getItem('userId'); //case: we openen een nieuwe sessie terwijl we nog ingelogd waren van de vorige sessie -> noch token noch user zijn ingesteld in Auth.context, maar bestaan in localstorage (één van deze zal altijd bestaan anders zijn we niet ingelogd en mogen we zelfs niet op dit page zijn) (jwt-expiry zorgt niet voor log-out)
+      const userID = user.userID || localStorage.getItem('userId'); //case: we openen een nieuwe sessie terwijl we nog ingelogd waren van de vorige sessie -> noch token noch user zijn ingesteld in Auth.context, maar bestaan in localstorage (één van deze zal altijd bestaan anders zijn we niet ingelogd en mogen we zelfs niet op dit page zijn) (jwt-expiry zorgt niet voor log-out)
 
       formData.append(
         "fotoFile",
