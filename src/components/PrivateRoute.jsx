@@ -15,15 +15,11 @@ export default function PrivateRoute() {
     console.log("PrivateRoute not ready");
     return (
       <>
-      <div className="spinner-border text-primary" role="status"></div> {/*blackbox generated spinner*/}
-      <div>
+        <div className="spinner-border text-primary" role="status"></div> {/*blackbox generated spinner*/}
         <div>
-          <div>
-            <h1>Loading...</h1>
-            <p>Please wait while we check your credentials.</p>
-          </div>
+          <h1>Loading...</h1>
+          <p>Please wait while we check your credentials.</p>
         </div>
-      </div>
       </>
     )
   }
