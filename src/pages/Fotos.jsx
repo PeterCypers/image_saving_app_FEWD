@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { getAll, getById, /*create, update,*/ addPhotoToAlbumRequest } from "../api";
+import { getAll, getById, /*create, update,*/ postPhoto } from "../api";
 import { useOutletContext } from "react-router-dom";
 import { useState, useCallback } from "react";
 import FotoCardList from "../components/FotoCardList";
@@ -53,7 +53,8 @@ export default function Fotos() {
 
     // TODO *
     // const { trigger: createAlbum, error: createError } = useSWRMutation('albums', create);
-    const { trigger: addPhotoToAlbum, error: addToAlbumError, reset: resetAlbumError } = useSWRMutation('albums', addPhotoToAlbumRequest);
+    const { trigger: addPhotoToAlbum, error: addToAlbumError, reset: resetAlbumError } = useSWRMutation('albums', postPhoto);
+    const { trigger: createAlbumAndAddPhotoToAlbum, error: createAndAddToAlbumError, reset: resetCreateAlbumError } = useSWRMutation('albums/create-and-add-photo', postPhoto);
 
     // const { trigger: deleteTransaction, error: deleteError } = useSWRMutation('albums', save);
 
@@ -63,10 +64,12 @@ export default function Fotos() {
      */
     const handleAddPhotoToAlbum = useCallback(async (selectedAlbum, newAlbumName, imageId) => {
         let success = true;
+        console.log(selectedAlbum, newAlbumName, imageId);
+        console.log("SelectedAlbumTruthy: ",Boolean(selectedAlbum));
         // Existing album -> add image to existing album
         try {
             if (selectedAlbum) {
-                // TODO *
+                // args: ctx.param-conform names
                 await addPhotoToAlbum({
                     albumID: Number(selectedAlbum),
                     imageID: Number(imageId),
@@ -78,14 +81,13 @@ export default function Fotos() {
 
             // New Album POST (add album to albums table, add foto to album_foto table -> in that order)
             } else if (newAlbumName) {
-                // TODO *
-                // await createAlbumAndAddPhotoToAlbum({
-                //     albumName: newAlbumName,
-                //     imageID: Number(imageId),
-                //     userID: contextID
-                // });
+                // args: db-conform names
+                await createAlbumAndAddPhotoToAlbum({
+                    albumName: newAlbumName,
+                    fotoID: Number(imageId),
+                });
             console.log(`Adding image ${imageId} to new album ${newAlbumName}`);
-            // Handle logic to create new album with newAlbumName and add image to it
+            setAlbumSuccessMessage(`Successfully added image ${imageId} to new album ${newAlbumName}`);
             } else {
             console.error('No valid album selected or created');
             }
@@ -116,8 +118,8 @@ export default function Fotos() {
                 allFotos={allFotos}
                 onAddPhotoToAlbum={handleAddPhotoToAlbum}
                 albums={allAlbums}
-                addToAlbumError={addToAlbumError}
-                resetAlbumError={resetAlbumError}
+                addToAlbumError={addToAlbumError /* || createAndAddToAlbumError */} // create & add should cause no conflicts...case handled in: components/AddToAlbumForm.jsx.onSubmit() //TODO: followup
+                resetAlbumError={resetAlbumError /* || resetCreateAlbumError */} // create & add should cause no conflicts...case handled in: components/AddToAlbumForm.jsx.onSubmit() //TODO: followup
                 albumSuccessMessage={albumSuccessMessage}
                 setAlbumSuccessMessage={handleSetAlbumSuccessMessage}
             />
