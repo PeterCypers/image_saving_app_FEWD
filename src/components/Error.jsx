@@ -2,6 +2,17 @@ import { isAxiosError } from 'axios';
 
 export default function Error({ error }) {
   if (isAxiosError(error)) {
+
+
+    /* debugging */
+    // console.log(error.message);
+    // console.log(error.response);
+    // console.log(error.response.data?.message);
+    // console.log(error.response.data?.details);
+    // return (
+    //   <div  className="text-danger">axios error exists</div>
+    // )
+
     return (
       <div className="alert alert-danger" data-cy="axios_error_message">
         <h4 className="alert-heading">Oops, something went wrong</h4>

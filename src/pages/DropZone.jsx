@@ -2,16 +2,18 @@ import React, { useState } from "react";
 // import useSWRMutation from 'swr/mutation';
 // import Error from '../Error';
 import { FileUploader } from "react-drag-drop-files";
-import { useOutletContext } from "react-router-dom";
+// import { useOutletContext } from "react-router-dom"; // (1): zie top
 import { save } from "../api";
 // const FormData = require('form-data');
 // import { FormData } from 'form-data'
+import { useAuth } from '../contexts/Auth.context'; 
 
 const fileTypes = ["JPG", "PNG", "GIF"];
 
 function DragDrop({}) {
   const [file, setFile] = useState(null);
-  const [ contextID ] = useOutletContext();
+  //const [ contextID ] = useOutletContext(); // (1): zie top
+  const { user } = useAuth();
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(null);
 
@@ -44,7 +46,7 @@ function DragDrop({}) {
       const formData = new FormData();
 
       const dateUploaded = new Date();
-      const userID = contextID;
+      const userID = user.userId || localStorage.getItem('userId'); //case: we openen een nieuwe sessie terwijl we nog ingelogd waren van de vorige sessie -> noch token noch user zijn ingesteld in Auth.context, maar bestaan in localstorage (één van deze zal altijd bestaan anders zijn we niet ingelogd en mogen we zelfs niet op dit page zijn) (jwt-expiry zorgt niet voor log-out)
 
       formData.append(
         "fotoFile",

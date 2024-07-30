@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/Auth.context';
 import { useNavigate } from 'react-router';
 import Error from '../components/Error';
 import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const validationRules = {
   email: {
@@ -16,12 +17,12 @@ const validationRules = {
 };
 
 export default function Login() {
-  const { login, error, loading } = useAuth();
+  const { login, error, loading, isAuthed } = useAuth();
   const navigate = useNavigate();
 
   const methods = useForm({
     defaultValues: {
-      email: 'first.user@hotmail.com',
+      email: 'second.user@hotmail.com',
       password: '12345678'
     }
   });
@@ -45,6 +46,10 @@ export default function Login() {
         }
       }
     ,[login]);
+
+  if(isAuthed){
+    return <Navigate replace to={'/'} />
+  }
 
   return (
       <FormProvider {...methods}>

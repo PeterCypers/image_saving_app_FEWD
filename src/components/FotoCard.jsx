@@ -1,5 +1,5 @@
 import { useCallback, useState, memo, useMemo } from "react";
-import { useOutletContext } from "react-router-dom";
+//import { useOutletContext } from "react-router-dom"; // (1): zie top
 import AddToAlbumForm from "./AddToAlbumForm";
 
 //TODO: add to album -> how will it work? at the moment I was thinking of replacing the button when clicked with a list of 
@@ -12,36 +12,50 @@ export default function FotoCard({
     albums,
     onSetVisibility,
     visibleId,
-    onAddPhotoToAlbum
+    onAddPhotoToAlbum,
+    addToAlbumError,
+    resetAlbumError,
+    albumSuccessMessage,
+    setAlbumSuccessMessage
   }) {
     const [ showAddToAlbum, setShowAddToAlbum ] = useState(false);
-    const [ contextID ] = useOutletContext();
+    // const [ contextID ] = useOutletContext(); // (1): zie top
+    //const [thisCardHasAxiosError, setThisCardHasAxiosError] = useState(addToAlbumError? true: false);
+    const [ errorMessage, setErrorMessage ] = useState("");
 
-    // TODO: er is nog het probleem dat alle foto's re-renderen met de huidige werkwijze
-    // kan mischien opgelost worden met useMemo ipv useCallback en een context wrapper in FotoCardList
-    // setVisibleCard = useMemo ...
-    // const [ visibleCardOptions, setVisibleCardOptions ] = useState(false);
-
-    // function toggleOptionsVisibility() {
-    //   setVisibleCardOptions(!visibleCardOptions);
-    // }
 
     const setVisibleCard = useCallback(() => {
       onSetVisibility(imageId);
     }, [imageId, onSetVisibility]);
 
     const handleAddToAlbumClick = () => {
+      resetAlbumError(); //reset from useSWRMutation to clear the lingering error msg when reloading the form
+      fotoCardSetAlbumSuccessMessage('');
       setShowAddToAlbum(true);
     };
+
+    const fotoCardSetAlbumSuccessMessage = async (message) => {
+      setAlbumSuccessMessage(message);
+    }
 
     const handleCancel = () => {
         setShowAddToAlbum(false);
     };
 
-    const handleAdd = (selectedAlbum, newAlbumName) => {
+    const handleAdd = async (selectedAlbum, newAlbumName) => {
+      //attempt
+      //resetAlbumError();
 
-      onAddPhotoToAlbum(selectedAlbum, newAlbumName, imageId);
-      setShowAddToAlbum(false);
+      const success = await onAddPhotoToAlbum(selectedAlbum, newAlbumName, imageId);
+      console.log(success);
+      if (!success /*addToAlbumError && addToAlbumError.response.data?.message.includes(`${imageId}`)*/){
+        setShowAddToAlbum(true);
+        console.log("in fail");
+
+      }else{
+        setShowAddToAlbum(false);
+        console.log("in success");
+      }
     };
 
     return (
@@ -51,7 +65,7 @@ export default function FotoCard({
       {visibleId === imageId && (
                 <>
                     {showAddToAlbum ? (
-                        <AddToAlbumForm albums={albums} onAdd={handleAdd} onCancel={handleCancel} />
+                        <AddToAlbumForm imageId={imageId} albums={albums} onAdd={handleAdd} onCancel={handleCancel} addToAlbumError={addToAlbumError} albumSuccessMessage={albumSuccessMessage} setAlbumSuccessMessage={fotoCardSetAlbumSuccessMessage} />
                     ) : (
                         <div className="card-body">
                             <div className="d-flex p-2 justify-content-around">

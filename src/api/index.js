@@ -61,21 +61,25 @@ export const save = async (url, form) => {
 
 //create
 //update
-/**
- * addPhotoToAlbum ->
- * 
- * @param {*} url 
- * @param {*} param1 
- */
-export const update = async(url, { arg: body }) => {
-  const { albumID, ...values } = body;
-  await axios.put(`${url}/${albumID}`,{values});
+
+//combine 2 above posts
+export const postPhoto = async(url, { arg: body }) => {
+  const { albumID, imageID, ...values } = body;
+  
+  //create album and then add foto
+  if(url.includes("create-and-add-photo")){
+    console.log(`posting: url: ${url} values: ${values}`)
+    await axios.post(`${url}`, values);
+    //add foto to album
+  }else{
+    await axios.post(`${url}/${albumID}/${imageID}`, {}); //empty object for back-end validation -> will throw the default error msg in core/validation.js
+  }
 }
 
 // nieuwe methode:
 export const save = async (url, formData) => {
   try {
-    const response = await axios.post(`${url}/`, formData, {
+    const response = await axios.post(`${url}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

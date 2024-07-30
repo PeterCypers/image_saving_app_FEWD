@@ -2,15 +2,16 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/Auth.context';
 
 export default function PrivateRoute() {
-  const { ready, isAuthed } = useAuth();
+  const { ready, isAuthed, loginLoading } = useAuth();
   const { pathname } = useLocation();
 
-  const loginPath = `/login?redirect=${pathname}`; // vb /login?redirect=/places
+  // const loginPath = `/login?redirect=${pathname}`; // vb /login?redirect=/places
+  const loginPath = '/login';
 
   //Case Token expired wordt niet afgehandeld...
 
   // nog niet authenticated
-  if (!ready) {
+  if (!ready || loginLoading) {
     console.log("PrivateRoute not ready");
     return (
       <>
