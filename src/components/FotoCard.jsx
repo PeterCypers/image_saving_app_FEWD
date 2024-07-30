@@ -16,7 +16,8 @@ export default function FotoCard({
     addToAlbumError,
     resetAlbumError,
     albumSuccessMessage,
-    setAlbumSuccessMessage
+    setAlbumSuccessMessage,
+    onDeletePhoto
   }) {
     const [ showAddToAlbum, setShowAddToAlbum ] = useState(false);
     // const [ contextID ] = useOutletContext(); // (1): zie top
@@ -27,6 +28,10 @@ export default function FotoCard({
     const setVisibleCard = useCallback(() => {
       onSetVisibility(imageId);
     }, [imageId, onSetVisibility]);
+
+    const handleDeleteFoto = useCallback(() => {
+      onDeletePhoto(imageId);
+    }, [imageId, onDeletePhoto]);
 
     const handleAddToAlbumClick = () => {
       resetAlbumError(); //reset from useSWRMutation to clear the lingering error msg when reloading the form
@@ -60,7 +65,7 @@ export default function FotoCard({
 
     return (
       <div className="card m-4" /*style={{ width: "18rem" }}*/>
-        {/* img path is absolute from the project-root */}
+        {/* test-img path is absolute from the project-root */}
       <img className="card-img-top card_img_hover" src={location} alt="Card image cap" onClick={setVisibleCard} />
       {visibleId === imageId && (
                 <>
@@ -69,7 +74,7 @@ export default function FotoCard({
                     ) : (
                         <div className="card-body">
                             <div className="d-flex p-2 justify-content-around">
-                                <button className="btn btn-primary">delete</button>
+                                <button className="btn btn-primary" onClick={handleDeleteFoto}>delete</button>
                                 <button className="btn btn-primary" onClick={handleAddToAlbumClick}>add to album</button>
                             </div>
                         </div>
