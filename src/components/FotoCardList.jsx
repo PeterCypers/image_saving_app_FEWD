@@ -3,8 +3,6 @@ import FotoCard from './FotoCard';
 //import { mockAlbums } from '../api/mock_data';
 
 
-
-// TODO: get-request all albums as an array in above component
 export default function FotoCardList({ allFotos, albums, onAddPhotoToAlbum, addToAlbumError, resetAlbumError, albumSuccessMessage, setAlbumSuccessMessage, onDeletePhoto }) {
   const [ visibleCardId, setVisibleCardId ] = useState(-1);
   //console.log(Object.values(allFotos));

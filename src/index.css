@@ -64,6 +64,11 @@ nav ul li a {
   padding: 16px;
   text-decoration: none;
 }
+@media screen and (max-width : 400px) {
+  nav ul li a {
+    padding: 10px;
+  }
+}
 
 nav li {
   font-size: 16px;

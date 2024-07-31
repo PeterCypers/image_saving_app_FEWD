@@ -101,14 +101,14 @@ export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addTo
                       value={newAlbumName}
                       onChange={(e) => setNewAlbumName(e.target.value)}
                   />
-                  {(error || newAlbumError) && <div className="text-danger">{error?error:newAlbumError}</div>}
+                  {(error || newAlbumError) && <div className="text-danger ml-2 mb-2">{error?error:newAlbumError}</div>}
                   {/* {(addToAlbumError) && <div  className="text-danger">{addToAlbumError.response.data?.message}</div>} */}
                   {/* <Error error={axiosErrorState} /> */}
 
               </div>
           )}
-          {(addAlbumErrorMessage) && <div  className="text-danger">{addAlbumErrorMessage}</div>}
-          {(!addAlbumErrorMessage && addAlbumSuccessMessage) && <div  className="text-success">{addAlbumSuccessMessage}</div>}
+          {(addAlbumErrorMessage) && <div  className="text-danger ml-2 mb-2">{addAlbumErrorMessage}</div>}
+          {(!addAlbumErrorMessage && addAlbumSuccessMessage) && <div  className="text-success ml-2 mb-2">{addAlbumSuccessMessage}</div>}
           <div className="d-flex p-2 justify-content-around">
               <button type="button" className="btn btn-primary" onClick={onSubmit}>Add</button>
               <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancel</button>
