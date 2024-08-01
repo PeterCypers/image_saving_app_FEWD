@@ -12,6 +12,7 @@ import { NotFound } from './pages/NotFound.jsx';
 import { AuthProvider } from './contexts/Auth.context.jsx';
 import Logout from './pages/Logout.jsx';
 import Register from './pages/Register.jsx';
+import AlbumImages from './pages/AlbumImages.jsx';
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,13 @@ const router = createBrowserRouter([
           },
           {
             path: "albums",
-            element: <Albums />
+            element: <Albums />,
+            children: [
+              {
+                path: ":albumId", // NEW PATH
+                element: <AlbumImages />, // Component to display album images
+              }
+            ]
           }
         ]
       }

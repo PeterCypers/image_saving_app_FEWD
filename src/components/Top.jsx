@@ -28,7 +28,7 @@ export function Top() {
 
       <div id="login-component">
         <button id="login-btn" onClick={handleLogin}>
-          <img id="login-img" src="src/images/login01.png" alt="" />
+          <img id="login-img" src="/images/login01.png" alt="" />
         </button>
         <p>{`${isAuthed? 'logout' : 'login'}`}</p>
       </div>

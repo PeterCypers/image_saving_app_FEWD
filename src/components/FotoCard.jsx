@@ -30,7 +30,7 @@ export default function FotoCard({
     }, [imageId, onSetVisibility]);
 
     const handleDeleteFoto = useCallback(() => {
-      if(confirm("Delete image?")){
+      if(confirm("Are you sure you want to Delete this image?")){
         onDeletePhoto(imageId);
       }
     }, [imageId, onDeletePhoto]);

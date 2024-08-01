@@ -28,13 +28,27 @@ export const getAll = async (url) => {
 };
 
 //de url = old: Id get all by userID (zal veranderen naar vb: getById fotoID)
-export const getById = async (url) => {
+// currently not used
+export const getById = async ({ url, id }) => {
   const {
     data
-  } = await axios.get(url); 
+  } = await axios.get(`${url}/${id}`); 
 
   return data.items;
 };
+
+//get all images by album-ID
+export const getAlbumImages = async (albumId) => {
+  try {
+    // Make a GET request to the endpoint /albums/:albumId/images
+    const { data } = await axios.get(`albums/${albumId}/images`);
+    return data.items; // Return the images from the response
+  } catch (error) {
+    console.error("Failed to fetch album images", error);
+    throw error; // Rethrow the error to be handled by SWR or calling code
+  }
+};
+
 
 export const deleteById = async (url, { arg: id }) => {
   await axios.delete(`${url}/${id}`);

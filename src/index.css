@@ -111,3 +111,26 @@ nav a.active {
 .card{
   width: 18rem;
 }
+
+/* albums-select */
+.album-list-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px;
+}
+
+.album-item {
+  margin-right: 15px;
+  flex-shrink: 0;        /* Prevent shrinking of items */
+  max-width: 150px;
+  word-wrap: break-word; /* Allows breaking of long words */
+  white-space: normal;   /* Allows wrapping to a new line */
+  overflow: hidden;      /* Hides overflow content */
+  text-align: center;    /* Center the text */
+  margin-top: 5px;       /* Small margin to separate from the image */
+}
+
+.selected {
+  border: 2px solid blue;
+}
