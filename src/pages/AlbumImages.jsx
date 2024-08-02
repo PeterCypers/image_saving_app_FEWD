@@ -36,12 +36,13 @@ export default function AlbumImages() {
   if (error) return <div>Error loading images</div>;
   if (!albumImages) return <div>Loading...</div>;
 
+  //TODO replace with a new component AlbumImage (no list required, it also has a trash-bin with ondelete prop)
   return (
     <div>
       <h2>Images for Album {albumId}</h2>
       <div className="image-gallery">
         {albumImages.map(image => (
-          <img key={image.fotoID} src={image.location} alt={`Image ${image.fotoID}`} />
+          <img key={image.fotoID} src={image.location} alt={`Image ${image.fotoID}`} style={{height: "150px", width: "150px", padding: "5px"}} />
         ))}
       </div>
     </div>
