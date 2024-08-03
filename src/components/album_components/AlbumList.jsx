@@ -1,25 +1,24 @@
 import { useEffect, useRef } from "react";
 import DeleteButton from "./DeleteButton";
 
+const formatDate = (date) => {
+  return date.substring(0,10);
+}
+
 // userID might not get used...
 const Album = ({ albumID, albumName, creationDate, userID, onSelect, isSelected, onDelete }) => {
 
   return (
     <>
-    {/* TODO define style in css file */}
-      <div className={`album-item ${isSelected ? 'selected' : ''}`}  style={{ position: "relative" }}>
+      <div className={`album-item ${isSelected ? 'selected' : ''}`}  >
       <DeleteButton onClick={() => onDelete(albumID)}/>
         <div 
           className="thumbnail" 
           onClick={() => onSelect(albumID)} 
-          style={{ 
-            cursor: 'pointer', 
-            display: 'inline-block' 
-          }}
         >
-          <img src="/images/folder_empty-removebg.png" alt={albumName} style={{height: "150px", width: "150px"}} />
+          <img src="/images/folder_empty-removebg.png" title={formatDate(creationDate)} alt={albumName}  />
         </div>
-        <p className="mx-2" style={{maxWidth: "150px", overflow: "auto"}}>{albumName}</p>
+        <p className="mx-2">{albumName}</p>
       </div>
     </>
   );
@@ -32,9 +31,16 @@ const AlbumList = ({ albums, onSelect, selectedAlbum, onDelete }) => {
 
   useEffect(() => {
     const handleScroll = (event) => {
-      if (containerRef.current) {
-        containerRef.current.scrollLeft += event.deltaY;
-        event.preventDefault(); // Prevent the default vertical scroll
+      const container = containerRef.current;
+
+      if (container) {
+        // Check if the scrollbar is visible
+        const hasScrollbar = container.scrollWidth > container.clientWidth;
+
+        if (hasScrollbar) {
+          container.scrollLeft += event.deltaY;
+          event.preventDefault(); // Prevent the default vertical scroll
+        }
       }
     };
 

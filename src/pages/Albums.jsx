@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { deleteById, getAll, getById, /*create, update,*/ } from "../api";
 import useSWRMutation from 'swr/mutation';
@@ -25,12 +25,23 @@ export default function Albums() {
         navigate(`/albums/${albumID}`); // Navigate to the album images page
     }
 
+    const findAlbumPosition = () => {
+        return allAlbums.findIndex(album => album.albumID === selectedAlbum) + 1;
+    }
+
+    const outletContextValue = useMemo(() => {
+        return {
+            selectedAlbum,
+            albumIndex: findAlbumPosition(),
+        };
+    }, [selectedAlbum, allAlbums]);
+
 
     return (
         <>
         <AlbumList albums={allAlbums} onSelect={handleAlbumSelect} selectedAlbum={selectedAlbum} onDelete={handleAlbumDelete} />
         <hr/>
-        <Outlet context={selectedAlbum}/> {/* TODO: all images (AlbumImages page)*/}
+        <Outlet context={outletContextValue}/>
         </>
     );
 }
