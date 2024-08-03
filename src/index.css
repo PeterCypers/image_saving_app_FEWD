@@ -64,6 +64,11 @@ nav ul li a {
   padding: 16px;
   text-decoration: none;
 }
+@media screen and (max-width : 400px) {
+  nav ul li a {
+    padding: 10px;
+  }
+}
 
 nav li {
   font-size: 16px;
@@ -105,4 +110,82 @@ nav a.active {
 
 .card{
   width: 18rem;
+}
+
+/* albums-select */
+.album-list-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px;
+}
+
+.album-item {
+  position: relative;
+  margin-right: 15px;
+  flex-shrink: 0;        /* Prevent shrinking of items */
+  max-width: 150px;
+  word-wrap: break-word; /* Allows breaking of long words */
+  white-space: normal;   /* Allows wrapping to a new line */
+  overflow: hidden;      /* Hides overflow content */
+  text-align: center;    /* Center the text */
+  margin-top: 5px;       /* Small margin to separate from the image */
+}
+.album-item p {
+  max-width: 150px;
+  overflow: auto;
+}
+
+.selected {
+  border: 2px solid blue;
+  border-radius: 10px;
+
+}
+.selected img {
+  margin-right: 5px;
+}
+
+/* container for Album image (repr by empty folder) */
+.thumbnail {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.thumbnail img{
+  height: 150px;
+  width: 150px;
+}
+
+.delete-button {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  cursor: pointer;
+  z-index: 1;
+  color: firebrick;
+}
+.album-item .delete-button {
+  top: 30px;
+}
+
+/* albumcards and albumcard delete override */
+.albumCard {
+  width: 150px;
+  margin: 10px;
+  position: relative;
+}
+
+.albumCardImage {
+  height: 150px;
+  object-fit: cover;
+}
+
+.card .delete-button {
+  color: white;
+  opacity: 0; /* Hide by default */
+  transition: opacity 0.3s ease, top 0.3s ease;
+}
+.card:hover .delete-button {
+  opacity: 1; /* Show the button on hover */
+  top: 10px; /* Adjust as needed, move down by 20px from the default position */
 }

@@ -51,6 +51,20 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem(USER_ID_KEY);
   }, []);
 
+  // Periodically check if the token has expired
+  useEffect(() => {
+    if (!token) return;
+
+    const checkTokenExpiration = () => {
+      if (isTokenExpired(token)) {
+        logout(); // Logout if token is expired
+      }
+    };
+    const intervalId = setInterval(checkTokenExpiration, 60000); // Check every minute
+
+    return () => clearInterval(intervalId); // Cleanup on component unmount
+  }, [token, logout]);
+  
   const setSession = useCallback(
     (token, user) => {
       if (isTokenExpired(token)) {

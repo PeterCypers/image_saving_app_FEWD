@@ -111,7 +111,7 @@ export default function Fotos() {
       <>
         {/* <h2>--Fotos User #{contextID}--</h2> */} {/* (1) */ }
         {fotosError ? (
-            <div>{fotosError}</div>
+            <div>{fotosError.message}</div>
         ) : isLoading ? (
             <div>Loading...</div>
         ) : (

@@ -30,7 +30,9 @@ export default function FotoCard({
     }, [imageId, onSetVisibility]);
 
     const handleDeleteFoto = useCallback(() => {
-      onDeletePhoto(imageId);
+      if(confirm("Are you sure you want to Delete this image?")){
+        onDeletePhoto(imageId);
+      }
     }, [imageId, onDeletePhoto]);
 
     const handleAddToAlbumClick = () => {
