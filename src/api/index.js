@@ -73,11 +73,17 @@ export const save = async (url, form) => {
 };
 */
 
-//create
+export const create = async (url, { arg : body }) => {
+  const { ...values } = body;
+  console.log(values);
+  const { data } = await axios.post(url, values);
+  return data;
+};
+
 //update
 export const updateById = async(url, { arg: body }) => {
   const { id, ...values } = body;
-  
+  console.log(values);
   try {
     await axios.put(`${url}/${id}`, values);
   } catch (error) {
