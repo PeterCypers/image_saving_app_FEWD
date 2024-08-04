@@ -1,9 +1,13 @@
 import useSWR from "swr";
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { deleteById, getAll, getById, /*create, update,*/ } from "../api";
+import { deleteById, getAll, getById, /*create,*/ updateById } from "../api";
 import useSWRMutation from 'swr/mutation';
 import AlbumList from '../components/album_components/AlbumList';
+
+const findAlbumPosition = (albums, selectedAlbum) => {
+    return albums.findIndex(album => album.albumID === selectedAlbum) + 1;
+  };
 
 export default function Albums() {
     const [ selectedAlbum, setSelectedAlbum ] = useState(-1); // the selected album's ID
@@ -18,28 +22,44 @@ export default function Albums() {
     const {
          trigger: handleAlbumDelete,
          error: deleteAlbumError 
-        } = useSWRMutation('albums', deleteById);
+    } = useSWRMutation('albums', deleteById);
+    
+    // SWR mutation for editing an album
+    const { 
+        trigger: handleAlbumEdit,
+        error: editAlbumError 
+    } = useSWRMutation('albums', updateById);
+
+    useEffect(() => {
+        if (editAlbumError) {
+          //console.log(Object.keys(editAlbumError));
+          //console.log(editAlbumError.message);
+          const errorMessage = editAlbumError.response?.data?.message || 'Failed to update the album. Please try again.';
+          alert(errorMessage);
+        }
+      }, [editAlbumError]);
 
     const handleAlbumSelect = (albumID) => {
         setSelectedAlbum(albumID);
         navigate(`/albums/${albumID}`); // Navigate to the album images page
     }
 
-    const findAlbumPosition = () => {
-        return allAlbums.findIndex(album => album.albumID === selectedAlbum) + 1;
-    }
-
     const outletContextValue = useMemo(() => {
         return {
             selectedAlbum,
-            albumIndex: findAlbumPosition(),
+            albumIndex: findAlbumPosition(allAlbums, selectedAlbum),
         };
     }, [selectedAlbum, allAlbums]);
 
 
     return (
         <>
-        <AlbumList albums={allAlbums} onSelect={handleAlbumSelect} selectedAlbum={selectedAlbum} onDelete={handleAlbumDelete} />
+        <AlbumList
+            albums={allAlbums}
+            onSelect={handleAlbumSelect}
+            selectedAlbum={selectedAlbum}
+            onDelete={handleAlbumDelete}
+            onEdit={handleAlbumEdit} />
         <hr/>
         <Outlet context={outletContextValue}/>
         </>

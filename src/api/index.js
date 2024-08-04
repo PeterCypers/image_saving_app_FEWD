@@ -75,6 +75,17 @@ export const save = async (url, form) => {
 
 //create
 //update
+export const updateById = async(url, { arg: body }) => {
+  const {albumID, newName } = body;
+  //put-request:
+  try {
+    await axios.put(`${url}/${albumID}`, {name: newName});
+  } catch (error) {
+    
+    throw error;
+  }
+  
+}
 
 //combine 2 above posts
 export const postPhoto = async(url, { arg: body }) => {
