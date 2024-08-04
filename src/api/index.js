@@ -76,10 +76,10 @@ export const save = async (url, form) => {
 //create
 //update
 export const updateById = async(url, { arg: body }) => {
-  const {albumID, newName } = body;
-  //put-request:
+  const { id, ...values } = body;
+  
   try {
-    await axios.put(`${url}/${albumID}`, {name: newName});
+    await axios.put(`${url}/${id}`, values);
   } catch (error) {
     
     throw error;

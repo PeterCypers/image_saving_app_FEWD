@@ -13,7 +13,7 @@ const Album = ({ albumID, albumName, creationDate, userID, onSelect, isSelected,
     <>
       <div className={`album-item ${isSelected ? 'selected' : ''}`}  >
       <DeleteButton onClick={() => onDelete(albumID)}/>
-      <EditButton albumName={albumName} onSave={(newName) => onEdit({albumID, newName})} />
+      <EditButton albumName={albumName} onSave={(newName) => onEdit({id: albumID, newName})} />
         <div 
           className="thumbnail" 
           onClick={() => onSelect(albumID)} 

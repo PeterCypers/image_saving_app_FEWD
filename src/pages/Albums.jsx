@@ -60,6 +60,7 @@ export default function Albums() {
             selectedAlbum={selectedAlbum}
             onDelete={handleAlbumDelete}
             onEdit={handleAlbumEdit} />
+        {/* new component name = AddNewAlbumForm */}
         <hr/>
         <Outlet context={outletContextValue}/>
         </>
