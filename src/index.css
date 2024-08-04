@@ -131,6 +131,12 @@ nav a.active {
   text-align: center;    /* Center the text */
   margin-top: 5px;       /* Small margin to separate from the image */
 }
+.album-item:hover {
+  background-color: #f0f0f0; /* Light grey background on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow on hover */
+  /*cursor: pointer;*/ /* Pointer cursor on hover */
+}
+
 .album-item p {
   max-width: 150px;
   overflow: auto;
@@ -166,6 +172,23 @@ nav a.active {
 }
 .album-item .delete-button {
   top: 30px;
+}
+
+.delete-button:hover {
+  color: maroon; /* Darker shade for hover effect */
+}
+
+.edit-button {
+  position: absolute;
+  top: 30px;
+  right: 35px; /* This positions the edit button 25px to the left of the delete button */
+  cursor: pointer;
+  z-index: 1;
+  color: #007bff; /* Bootstrap's primary color for buttons (blue) */
+}
+
+.edit-button:hover {
+  color: #0056b3; /* Darker shade for hover effect */
 }
 
 /* albumcards and albumcard delete override */
