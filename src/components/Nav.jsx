@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 function Nav() {
     return (
         <div className='mb-2 border border-primary rounded'>
-            <nav>
+            <nav className="main-nav">
                 <ul>
                     <li>
                         <NavLink to="/dropzone">Add Image</NavLink> 

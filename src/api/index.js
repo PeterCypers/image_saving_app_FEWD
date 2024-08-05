@@ -75,7 +75,7 @@ export const save = async (url, form) => {
 
 export const create = async (url, { arg : body }) => {
   const { ...values } = body;
-  console.log(values);
+  //console.log(values);
   const { data } = await axios.post(url, values);
   return data;
 };
@@ -83,7 +83,7 @@ export const create = async (url, { arg : body }) => {
 //update
 export const updateById = async(url, { arg: body }) => {
   const { id, ...values } = body;
-  console.log(values);
+  //console.log(values);
   try {
     await axios.put(`${url}/${id}`, values);
   } catch (error) {
