@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { deleteById, getAll, getById, /*create, update,*/ postPhoto } from "../api";
 import { useOutletContext } from "react-router-dom";
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import FotoCardList from "../components/FotoCardList";
 import useSWRMutation from 'swr/mutation';
 
@@ -12,6 +12,10 @@ export default function Fotos() {
     const [errorMessage, setErrorMessage] = useState('');
     const [axiosError, setAxiosError] = useState(null); //not used -> error from useSWRMut == axiosError
     const [albumSuccessMessage, setAlbumSuccessMessage] = useState('');
+    // paginatie:
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(15);
+    const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
     const handleSetAlbumSuccessMessage = (successMessage) => {
         //console.log("successmessage:" + successMessage, albumSuccessMessage); //debugging
@@ -51,11 +55,8 @@ export default function Fotos() {
     } = useSWR('albums', getAll);
 
 
-    // TODO *
-    // const { trigger: createAlbum, error: createError } = useSWRMutation('albums', create);
     const { trigger: addPhotoToAlbum, error: addToAlbumError, reset: resetAlbumError } = useSWRMutation('albums', postPhoto);
     const { trigger: createAlbumAndAddPhotoToAlbum, error: createAndAddToAlbumError, reset: resetCreateAlbumError } = useSWRMutation('albums/create-and-add-photo', postPhoto);
-
     const { trigger: deletePhoto, error: deletePhotoError } = useSWRMutation('fotos', deleteById);
     
 
@@ -107,8 +108,90 @@ export default function Fotos() {
         }
     },[addPhotoToAlbum, createAlbumAndAddPhotoToAlbum]);
 
+    // pagination
+    // how this code works when there is an async data-fetching operation possibly underway in useSWR('fotos', getAll):
+    /*
+    - Graceful Handling of Empty Arrays: JavaScript array methods like .slice() are designed to handle empty arrays gracefully.
+      This makes them robust in cases where data might not be immediately available.
+    - Reactivity of State and Props: In React, when the state or props change (like when allFotos is updated), 
+      the component automatically re-renders with the new data. This ensures that the sliced array (currentFotos) 
+      is always up-to-date with the fetched data.
+    - Default Empty Array: By initializing allFotos to an empty array ([]), 
+      you avoid potential errors that could occur if the component tried to slice undefined or null. 
+      This initialization pattern is common in asynchronous data fetching scenarios.
+    */
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentFotos = allFotos.slice(indexOfFirstItem, indexOfLastItem);
+    
+    // select items per page (paginatie)
+    // Retrieve itemsPerPage from localStorage when the component mounts
+    useEffect(() => {
+        const savedItemsPerPage = localStorage.getItem('itemsPerPage');
+            if (savedItemsPerPage) {
+                setItemsPerPage(Number(savedItemsPerPage));
+            }
+        }, []);
+    
+    const handleItemsPerPageChange = (event) => {
+        const newItemsPerPage = Number(event.target.value);
+        setItemsPerPage(newItemsPerPage);
+        localStorage.setItem('itemsPerPage', newItemsPerPage);
+        setCurrentPage(1); // Reset to the first page when items per page changes
+    };
+
+    //to top btn
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
     return (
       <>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+            <nav aria-label="Page navigation example">
+            <ul className="pagination d-flex justify-content-center">
+                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                <a className="page-link" href="#" aria-label="Previous" onClick={() => handlePageChange(currentPage - 1)}>
+                    <span aria-hidden="true">&laquo;</span>
+                    <span className="sr-only">Previous</span>
+                </a>
+                </li>
+                {Array.from({ length: Math.ceil(allFotos.length / itemsPerPage) }, (_, index) => (
+                    <li className={`page-item ${currentPage === index + 1 ? 'active' : ''}`} key={index}>
+                        <a className="page-link" href="#" onClick={() => handlePageChange(index + 1)}>
+                            {index + 1}
+                        </a>
+                    </li>
+                ))}
+                <li className={`page-item ${currentPage === Math.ceil(allFotos.length / itemsPerPage) ? 'disabled' : ''}`}>
+                    <a className="page-link" href="#" aria-label="Next" onClick={() => handlePageChange(currentPage + 1)}>
+                    <span aria-hidden="true">&raquo;</span>
+                    <span className="sr-only">Next</span>
+                </a>
+                </li>
+            </ul>
+            </nav>
+
+            <div>
+                <label htmlFor="itemsPerPageSelect" className="form-label me-2">Items per page:</label>{' '}
+                <select 
+                id="itemsPerPageSelect" 
+                className="form-select" 
+                value={itemsPerPage} 
+                onChange={handleItemsPerPageChange}
+                >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={20}>20</option>
+                </select>
+            </div>
+        </div>
+        
+        <hr />
         {/* <h2>--Fotos User #{contextID}--</h2> */} {/* (1) */ }
         {fotosError ? (
             <div>{fotosError.message}</div>
@@ -116,7 +199,7 @@ export default function Fotos() {
             <div>Loading...</div>
         ) : (
             <FotoCardList 
-                allFotos={allFotos}
+                allFotos={currentFotos}
                 onAddPhotoToAlbum={handleAddPhotoToAlbum}
                 albums={allAlbums}
                 addToAlbumError={addToAlbumError /* || createAndAddToAlbumError */} // create & add should cause no conflicts...case handled in: components/AddToAlbumForm.jsx.onSubmit() //TODO: followup
@@ -127,6 +210,16 @@ export default function Fotos() {
             />
         )}
         <hr />
+
+        {/* Back to Top Button */}
+        <button 
+          className="btn btn-primary mr-3"
+          style={{ zIndex: 1000 }} 
+          onClick={scrollToTop}
+        >
+          Back to Top
+        </button>
+
       </>
     );
 }

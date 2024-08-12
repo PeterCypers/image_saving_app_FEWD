@@ -2,8 +2,6 @@ import { useEffect, useRef } from "react";
 import Album from "./Album";
 
 
-
-
 // albumID, albumName, creationDate, userID
 const AlbumList = ({ albums, onSelect, selectedAlbum, onDelete, onEdit }) => {
   const containerRef = useRef(null);
