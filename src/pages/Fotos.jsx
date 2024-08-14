@@ -182,6 +182,7 @@ export default function Fotos() {
                 className="form-select" 
                 value={itemsPerPage} 
                 onChange={handleItemsPerPageChange}
+                data-cy="number_select"
                 >
                 <option value={5}>5</option>
                 <option value={10}>10</option>

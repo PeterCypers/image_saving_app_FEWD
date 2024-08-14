@@ -5,13 +5,13 @@ function Nav() {
         <div className='mb-2 border border-primary rounded'>
             <nav className="main-nav">
                 <ul>
-                    <li>
+                    <li data-cy="dropzone_link">
                         <NavLink to="/dropzone">Add Image</NavLink> 
                     </li>
-                    <li>
+                    <li data-cy="images_link">
                         <NavLink to="/fotos">Images</NavLink> 
                     </li>
-                    <li>
+                    <li data-cy="albums_link">
                         <NavLink to="/albums">Albums</NavLink> 
                     </li>
                 </ul>

@@ -24,10 +24,10 @@ export function Top() {
     return (
     <>
       <header id="page-header">
-      <h1 className='permanent-marker-regular'>Image Collection</h1>
+      <h1 className='permanent-marker-regular' data-cy="main_h1">Image Collection</h1>
 
       <div id="login-component">
-        <button id="login-btn" onClick={handleLogin}>
+        <button id="login-btn" onClick={handleLogin} data-cy="login_logout_btn">
           <img id="login-img" src="/images/login01.png" alt="" />
         </button>
         <p>{`${isAuthed? 'logout' : 'login'}`}</p>

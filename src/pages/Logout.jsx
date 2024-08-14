@@ -14,7 +14,7 @@ export default function Logout() {
 
 
   return (
-    <div className="container">
+    <div className="container" data-cy="logout_feedback">
       <div className="row">
         <div className="col-md-12 text-center mt-5">
           <h1>
