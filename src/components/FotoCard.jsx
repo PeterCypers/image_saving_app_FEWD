@@ -66,7 +66,7 @@ export default function FotoCard({
     };
 
     return (
-      <div className="card m-4" /*style={{ width: "18rem" }}*/>
+      <div className="card m-4" /*style={{ width: "18rem" }}*/ data-cy="foto_card">
         {/* test-img path is absolute from the project-root */}
       <img className="card-img-top card_img_hover" src={location} alt="Card image cap" onClick={setVisibleCard} />
       {visibleId === imageId && (
@@ -76,8 +76,8 @@ export default function FotoCard({
                     ) : (
                         <div className="card-body">
                             <div className="d-flex p-2 justify-content-around">
-                                <button className="btn btn-primary" onClick={handleDeleteFoto}>delete</button>
-                                <button className="btn btn-primary" onClick={handleAddToAlbumClick}>add to album</button>
+                                <button className="btn btn-primary" onClick={handleDeleteFoto} data-cy="fotodelete_btn">delete</button>
+                                <button className="btn btn-primary" onClick={handleAddToAlbumClick} data-cy="addtoalbum_btn">add to album</button>
                             </div>
                         </div>
                     )}

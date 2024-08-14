@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Error from './Error';
+const MAXLENGTH_ALBUMNAME = 25;
 
 export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addToAlbumError, albumSuccessMessage, setAlbumSuccessMessage }) {
   const [selectedAlbum, setSelectedAlbum] = useState(''); // = albumId
@@ -58,6 +59,12 @@ export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addTo
           setError('');
           return;
       }
+      //case ontdekt bij testing
+      if (newAlbumName.length > MAXLENGTH_ALBUMNAME){
+        setNewAlbumError('Album name exceeds 25 characters.');
+        setError('');
+        return;
+      }
 
       if (error){
         return
@@ -84,6 +91,7 @@ export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addTo
                   className="form-control"
                   value={selectedAlbum}
                   onChange={handleAlbumSelect}
+                  data-cy="album_select"
               >
                   <option value="">-- Select an Album --</option>
                   {albums.map((album) => (
@@ -92,7 +100,7 @@ export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addTo
               </select>
           </div>
           {!selectedAlbum && (
-              <div className="form-group">
+              <div className="form-group" data-cy="input_new_album">
                   <label htmlFor="newAlbum">Create New Album</label>
                   <input
                       type="text"
@@ -100,18 +108,19 @@ export default function AddToAlbumForm({ imageId, albums, onAdd, onCancel, addTo
                       className="form-control"
                       value={newAlbumName}
                       onChange={(e) => setNewAlbumName(e.target.value)}
+                      data-cy="newalbum_input"
                   />
-                  {(error || newAlbumError) && <div className="text-danger ml-2 mb-2">{error?error:newAlbumError}</div>}
+                  {(error || newAlbumError) && <div className="text-danger ml-2 mb-2" data-cy="create_and_addtoalbum_error">{error?error:newAlbumError}</div>}
                   {/* {(addToAlbumError) && <div  className="text-danger">{addToAlbumError.response.data?.message}</div>} */}
                   {/* <Error error={axiosErrorState} /> */}
 
               </div>
           )}
-          {(addAlbumErrorMessage) && <div  className="text-danger ml-2 mb-2">{addAlbumErrorMessage}</div>}
-          {(!addAlbumErrorMessage && addAlbumSuccessMessage) && <div  className="text-success ml-2 mb-2">{addAlbumSuccessMessage}</div>}
+          {(addAlbumErrorMessage) && <div  className="text-danger ml-2 mb-2" data-cy="addtoalbum_error">{addAlbumErrorMessage}</div>}
+          {(!addAlbumErrorMessage && addAlbumSuccessMessage) && <div  className="text-success ml-2 mb-2" data-cy="addtoalbum_success">{addAlbumSuccessMessage}</div>}
           <div className="d-flex p-2 justify-content-around">
-              <button type="button" className="btn btn-primary" onClick={onSubmit}>Add</button>
-              <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancel</button>
+              <button type="button" className="btn btn-primary" onClick={onSubmit} data-cy="add_btn">Add</button>
+              <button type="button" className="btn btn-secondary" onClick={onCancel} data-cy="addtoalbum_cancel_btn">Cancel</button>
           </div>
       </div>
   );

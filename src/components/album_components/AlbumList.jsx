@@ -33,7 +33,7 @@ const AlbumList = ({ albums, onSelect, selectedAlbum, onDelete, onEdit }) => {
 
   return (
     <>
-    <div className="album-list-container" ref={containerRef}>
+    <div className="album-list-container" ref={containerRef} data-cy="album_list">
         {albums.map((album) => (
           <Album 
             key={album.albumID}

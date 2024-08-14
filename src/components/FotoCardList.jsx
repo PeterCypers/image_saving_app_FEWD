@@ -26,7 +26,7 @@ export default function FotoCardList({ allFotos, albums, onAddPhotoToAlbum, addT
   }
 
   return (
-    <div className="foto-card-list">
+    <div className="foto-card-list" data-cy="foto_card_list">
       {allFotos.map((foto) => (
         <FotoCard 
           key={foto.fotoID}

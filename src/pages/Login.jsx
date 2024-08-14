@@ -57,7 +57,7 @@ export default function Login() {
           <form
             onSubmit={handleSubmit(handleLogin)}
             className='d-flex flex-column'>
-            <h1>Sign in</h1>
+            <h1 data-cy='login_h1'>Sign in</h1>
 
             <Error error={error} />
             {/* {(error) && <div  className="text-danger">{error}</div>} */}
@@ -68,6 +68,7 @@ export default function Login() {
               name='email'
               placeholder='your@email.com'
               validationRules={validationRules.email}
+              data-cy='email_input'
             />
 
             <LabelInput
@@ -75,6 +76,7 @@ export default function Login() {
               type='password'
               name='password'
               validationRules={validationRules.password}
+              data-cy='password_input'
             />
 
             <div className='clearfix'>
@@ -83,6 +85,7 @@ export default function Login() {
                   type='submit'
                   className='btn btn-primary'
                   disabled={loading}
+                  data-cy='login_btn'
                 >
                   Sign in
                 </button>
