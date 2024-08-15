@@ -20,9 +20,10 @@ export default function Login() {
   const { login, error, loading, isAuthed } = useAuth();
   const navigate = useNavigate();
 
+  //voor offline gebruik: second.user@hotmail.com -> demo user bestaat enkel in de online-versie
   const methods = useForm({
     defaultValues: {
-      email: 'second.user@hotmail.com',
+      email: 'demo.user@hotmail.com',
       password: '12345678'
     }
   });
