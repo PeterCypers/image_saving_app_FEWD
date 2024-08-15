@@ -1,11 +1,10 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/TA_3CB_a)
 # Examenopdracht Front-end Web Development
-
-> Schrap hierboven wat niet past
 
 - Student: Peter Cypers
 - Studentennummer: 202185333
 - E-mailadres: <mailto:peter.cypers@student.hogent.be>
+
+## <u>Project: Image Saving Application</u>
 
 ## Vereisten
 
@@ -14,14 +13,32 @@ Ik verwacht dat volgende software reeds geïnstalleerd is:
 - [NodeJS](https://nodejs.org)
 - [Yarn](https://yarnpkg.com)
 - [MySQL Community Server](https://dev.mysql.com/downloads/mysql/)
-- ...
 
-> Vul eventueel aan
+Voor gebruikers van [Chocolatey](https://chocolatey.org/):
+
+```powershell
+choco install nodejs -y
+choco install yarn -y
+```
+Voor gebruikers van [Homebrew](https://brew.sh/):
+
+```powershell
+brew install node
+brew install yarn
+```
 
 ## Opstarten
 
-> Schrijf hier hoe we de applicatie starten (.env bestanden aanmaken, commando's om uit te voeren...)
+- Maak een nieuwe `.env` (development) file aan, in dezelfde folder als de src, met deze template:
+
+```ini
+VITE_API_URL=http://localhost:9000/api/
+```
+
+- Installeer alle dependencies: `yarn install`
+- Start de development server: `yarn dev`
 
 ## Testen
 
-> Schrijf hier hoe we de testen uitvoeren (.env bestanden aanmaken, commando's om uit te voeren...)
+- Maak een `.env` file aan (zie boven)
+- Start de tests: `yarn test`
