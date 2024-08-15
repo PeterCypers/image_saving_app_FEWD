@@ -142,12 +142,12 @@ describe('Fotos', () => {
 
     //test name too long, met een 26-tekens lange naam
     cy.get('[data-cy=newalbum_input]').should('exist');
+    cy.get('[data-cy=newalbum_input]').clear(); // 'Family' zit nog in de field als text
     cy.get('[data-cy=newalbum_input]').type('12345678901234567890123456');
     cy.get('[data-cy=add_btn]').click();
     cy.wait(500);
     cy.get('[data-cy=create_and_addtoalbum_error]').should('exist');
     cy.get('[data-cy=create_and_addtoalbum_error]').contains('Album name exceeds 25 characters.');
-
 
   })
 
@@ -164,6 +164,34 @@ describe('Fotos', () => {
     cy.get('[data-cy=addtoalbum_success]').should('exist');
     cy.get('[data-cy=create_and_addtoalbum_error]').should('not.exist');
   })
+
+  it('should have deleted the image', () => {
+    // fotos opvangen, omdat we al op de page zitten: reload
+    cy.intercept('GET', 'api/fotos').as('getAllFotos');
+    cy.reload();
+    
+    cy.wait('@getAllFotos').then((interception) => {
+        const initialImageCount = interception.response.body.count;
+        //console.log(interception.response.body); //debugging
+        
+        // foto deleten
+        cy.get('[data-cy=foto_card]').first()
+            .find('img')
+            .should('be.visible')
+            .click();
+        cy.wait(500);
+
+        cy.get('[data-cy=fotodelete_btn]').should('exist').click();
+
+        // wachten op fotos na delete
+        cy.wait('@getAllFotos').then((interceptionAfterDelete) => {
+            const newImageCount = interceptionAfterDelete.response.body.count;
+
+            // moet 1 minder zijn
+            expect(newImageCount).to.eq(initialImageCount - 1);
+        });
+    });
+  });
 
   const navigateToFormHelper = () => {
     cy.get('[data-cy=foto_card]').first()
