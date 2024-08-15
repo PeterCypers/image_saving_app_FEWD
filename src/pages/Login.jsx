@@ -22,7 +22,7 @@ export default function Login() {
 
   const methods = useForm({
     defaultValues: {
-      email: 'second.user@hotmail.com',
+      email: 'demo.user@hotmail.com',
       password: '12345678'
     }
   });
